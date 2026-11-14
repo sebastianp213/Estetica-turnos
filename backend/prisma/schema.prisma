@@ -1,0 +1,122 @@
+// Esquema inicial de Prisma para Estética Turnos.
+// La URL de conexión se configura mediante la variable DATABASE_URL.
+// No guardar credenciales reales en este archivo ni en el repositorio.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RolUsuario {
+  CLIENTE
+  PROFESIONAL
+  ADMIN
+}
+
+enum EstadoReserva {
+  CONFIRMADO
+  COMPLETADO
+  CANCELADO
+}
+
+enum DiaSemana {
+  LUNES
+  MARTES
+  MIERCOLES
+  JUEVES
+  VIERNES
+  SABADO
+  DOMINGO
+}
+
+model Usuario {
+  id           Int          @id @default(autoincrement())
+  nombre       String       @db.VarChar(100)
+  email        String       @unique @db.VarChar(255)
+  passwordHash String       @map("password_hash") @db.VarChar(255)
+  rol          RolUsuario   @default(CLIENTE)
+  activo       Boolean      @default(true)
+  createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  perfilProfesional Profesional?
+  reservasComoCliente Reserva[] @relation("ClienteReservas")
+
+  @@map("usuarios")
+}
+
+model Profesional {
+  id          Int      @id @default(autoincrement())
+  usuarioId   Int      @unique @map("usuario_id")
+  descripcion String?  @db.Text
+  activo      Boolean  @default(true)
+
+  usuario       Usuario                 @relation(fields: [usuarioId], references: [id], onDelete: Restrict)
+  tratamientos  ProfesionalTratamiento[]
+  horarios      HorarioAtencion[]
+  reservas      Reserva[]
+
+  @@map("profesionales")
+}
+
+model Tratamiento {
+  id              Int      @id @default(autoincrement())
+  nombre          String   @unique @db.VarChar(100)
+  descripcion     String?  @db.Text
+  duracionMinutos Int      @map("duracion_minutos")
+  precio          Decimal  @db.Decimal(10, 2)
+  activo          Boolean  @default(true)
+
+  profesionales ProfesionalTratamiento[]
+  reservas      Reserva[]
+
+  @@map("tratamientos")
+}
+
+model ProfesionalTratamiento {
+  profesionalId Int @map("profesional_id")
+  tratamientoId Int @map("tratamiento_id")
+
+  profesional Profesional @relation(fields: [profesionalId], references: [id], onDelete: Cascade)
+  tratamiento Tratamiento @relation(fields: [tratamientoId], references: [id], onDelete: Cascade)
+
+  @@id([profesionalId, tratamientoId])
+  @@map("profesional_tratamiento")
+}
+
+model HorarioAtencion {
+  id             Int        @id @default(autoincrement())
+  profesionalId  Int        @map("profesional_id")
+  diaSemana      DiaSemana  @map("dia_semana")
+  horaInicio     DateTime   @map("hora_inicio") @db.Time(0)
+  horaFin        DateTime   @map("hora_fin") @db.Time(0)
+
+  profesional Profesional @relation(fields: [profesionalId], references: [id], onDelete: Cascade)
+
+  @@unique([profesionalId, diaSemana])
+  @@map("horarios_atencion")
+}
+
+model Reserva {
+  id             Int           @id @default(autoincrement())
+  clienteId      Int           @map("cliente_id")
+  profesionalId  Int           @map("profesional_id")
+  tratamientoId  Int           @map("tratamiento_id")
+  inicio         DateTime      @db.Timestamptz(3)
+  fin            DateTime      @db.Timestamptz(3)
+  precioAplicado Decimal       @map("precio_aplicado") @db.Decimal(10, 2)
+  estado         EstadoReserva @default(CONFIRMADO)
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  cliente     Usuario     @relation("ClienteReservas", fields: [clienteId], references: [id], onDelete: Restrict)
+  profesional Profesional @relation(fields: [profesionalId], references: [id], onDelete: Restrict)
+  tratamiento Tratamiento @relation(fields: [tratamientoId], references: [id], onDelete: Restrict)
+
+  @@index([clienteId, inicio])
+  @@index([profesionalId, inicio, fin])
+  @@index([estado, inicio])
+  @@map("reservas")
+}
