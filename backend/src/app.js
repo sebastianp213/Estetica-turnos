@@ -1,12 +1,12 @@
-
 const express = require("express");
+const routes = require("./routes");
 
 const app = express();
 
-// Middlewares generales
 app.use(express.json());
 
-// Ruta de prueba
+app.use("/api", routes);
+
 app.get("/", (req, res) => {
   res.json({
     mensaje: "API de Estetica Turnos funcionando correctamente"

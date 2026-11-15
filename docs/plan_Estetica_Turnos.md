@@ -1,7 +1,7 @@
 # Plan de trabajo – Estética Turnos
 
-**Ubicación en el repositorio:** `docs/plan.md`  
-**Estado:** plan inicial  
+**Ubicación en el repositorio:** `docs/plan_Estetica_Turnos.md`  
+**Estado:** plan de trabajo inicial  
 **Referencia funcional:** `docs/spec.md`
 
 ## Objetivo
@@ -10,24 +10,24 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 
 ## Etapa 1. Preparación del repositorio
 
-- [ ] **T01 – Revisar la estructura inicial.** Comprobar que existan `frontend/`, `backend/`, `docs/`, `AGENTS.md`, `README.md` y `.gitignore`.
-- [ ] **T02 – Revisar la documentación.** Verificar que `spec.md`, `base-de-datos.md` y `propuesta-inicial.md` estén en `docs/` y coincidan con el alcance acordado.
-- [ ] **T03 – Inicializar Git y primer commit.** Revisar `git status`, confirmar que no haya secretos y registrar la estructura y documentación inicial.
+- [X] **T01 – Revisar la estructura inicial.** Comprobar que existan `frontend/`, `backend/`, `docs/`, `AGENTS.md`, `README.md` y `.gitignore`.
+- [X] **T02 – Revisar la documentación.** Verificar que `spec.md`, `base_de_datos.md` y `propuesta_inicial.md` estén en `docs/` y coincidan con el alcance acordado.
+- [X] **T03 – Inicializar Git y primer commit.** Revisar `git status`, confirmar que no haya secretos y registrar la estructura y documentación inicial.
 
 ## Etapa 2. Configuración del backend y la base de datos
 
-- [ ] **T04 – Inicializar el backend.** Crear el proyecto Node.js dentro de `backend/` y definir sus scripts.
-- [ ] **T05 – Instalar y configurar Express.** Preparar el servidor HTTP y una ruta básica de comprobación.
-- [ ] **T06 – Configurar variables de entorno.** Crear `.env.example`, configurar `.env` local y verificar que `.env` esté ignorado por Git.
-- [ ] **T07 – Configurar Prisma para MariaDB y ubicar `schema.prisma` en `backend/prisma/`.
-- [ ] **T08 – Validar el esquema de Prisma.** Ejecutar la validación del esquema y corregir cualquier error.
-- [ ] **T09 – Crear una base de datos de desarrollo en MariaDB y configurar `DATABASE_URL` sin publicar credenciales.
-- [ ] **T10 – Crear la migración inicial.** Generar y aplicar la migración de las seis entidades del modelo.
-- [ ] **T11 – Preparar el acceso a datos.** Crear la instancia reutilizable de Prisma Client y comprobar una consulta sencilla.
+- [X] **T04 – Inicializar el backend.** Crear el proyecto Node.js dentro de `backend/` y definir sus scripts.
+- [X] **T05 – Instalar y configurar Express.** Preparar el servidor HTTP y una ruta básica de comprobación.
+- [X] **T06 – Configurar variables de entorno.** Crear `.env.example`, configurar `.env` local y verificar que `.env` esté ignorado por Git.
+- [X] **T07 – Instalar y configurar Prisma.** Configurar Prisma para MariaDB y ubicar `schema.prisma` en `backend/prisma/`.
+- [X] **T08 – Validar el esquema de Prisma.** Ejecutar la validación del esquema y corregir cualquier error.
+- [X] **T09 – Configurar MariaDB.** Crear una base de datos de desarrollo en MariaDB y configurar `DATABASE_URL` sin publicar credenciales.
+- [X] **T10 – Crear la migración inicial.** Generar y aplicar la migración de las seis entidades del modelo.
+- [X] **T11 – Preparar el acceso a datos.** Crear la instancia reutilizable de Prisma Client y comprobar una consulta sencilla.
 
 ## Etapa 3. Backend: autenticación y usuarios
 
-- [ ] **T12 – Definir la estructura del backend.** Separar rutas, controladores, servicios, middleware y acceso a datos.
+- [X] **T12 – Definir la estructura del backend.** Separar rutas, controladores, servicios, middleware y acceso a datos.
 - [ ] **T13 – Implementar registro.** Validar nombre, email único y contraseña; almacenar el hash.
 - [ ] **T14 – Implementar inicio de sesión.** Verificar credenciales y emitir el mecanismo de autenticación elegido.
 - [ ] **T15 – Implementar middleware de autenticación.** Identificar al usuario autenticado en las rutas protegidas.
@@ -48,7 +48,7 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 
 - [ ] **T25 – Implementar consulta de disponibilidad.** Calcular horarios posibles según jornada, duración del tratamiento y reservas confirmadas.
 - [ ] **T26 – Implementar creación de reservas.** Validar cliente, profesional, tratamiento, fecha, anticipación y horario.
-- [ ] **T27 – Proteger la creación ante solicitudes simultáneas mediante transacciones y controles adecuados en MariaDB.
+- [ ] **T27 – Evitar superposición de reservas.** Proteger la creación ante solicitudes simultáneas mediante transacciones y controles adecuados en MariaDB.
 - [ ] **T28 – Implementar consulta de reservas.** Aplicar los permisos de cliente, profesional y administrador.
 - [ ] **T29 – Implementar cancelación por cliente.** Aplicar el límite de 24 horas y conservar el registro histórico.
 - [ ] **T30 – Implementar cancelación administrativa.** Permitir al administrador cancelar sin el límite de anticipación.
@@ -79,7 +79,7 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 
 ## Etapa 8. Publicación
 
-- [ ] **T49 – Configurar MariaDB en un servicio accesible desde internet y aplicar las migraciones.
+- [ ] **T49 – Publicar la base de datos.** Configurar MariaDB en un servicio accesible desde internet y aplicar las migraciones.
 - [ ] **T50 – Publicar el backend.** Desplegar la API y configurar sus variables de entorno.
 - [ ] **T51 – Publicar el frontend.** Desplegar la aplicación y configurar la URL de la API.
 - [ ] **T52 – Verificar la aplicación pública.** Probar desde un navegador externo los flujos principales y los permisos.
@@ -107,4 +107,4 @@ Usar mensajes claros, por ejemplo:
 
 ---
 
-**Importante:** todas las tareas están pendientes al crear este plan. No se debe marcar ninguna como completada solo por haber creado los documentos o carpetas.
+**Importante:** todas las tareas permanecen pendientes hasta que se verifique su cumplimiento. No se debe marcar ninguna como completada solo por haber creado documentos o carpetas.
