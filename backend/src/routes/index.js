@@ -1,9 +1,10 @@
-
 const express = require("express");
 
 const { registrar } = require("../controllers/usuario.controller");
 const { login } = require("../controllers/auth.controller");
 const tratamientos = require("../controllers/tratamiento.controller");
+const profesionales = require("../controllers/profesional.controller");
+const horarios = require("../controllers/horario.controller");
 
 const autenticar = require("../middlewares/autenticar");
 const autorizar = require("../middlewares/autorizar");
@@ -66,6 +67,75 @@ router.patch(
   autenticar,
   autorizar("ADMIN"),
   tratamientos.desactivar
+);
+
+// Consulta pública de profesionales
+router.get("/profesionales", profesionales.listar);
+router.get("/profesionales/:id", profesionales.obtenerUno);
+
+// Administración de profesionales
+router.post(
+  "/profesionales",
+  autenticar,
+  autorizar("ADMIN"),
+  profesionales.crear
+);
+
+router.put(
+  "/profesionales/:id",
+  autenticar,
+  autorizar("ADMIN"),
+  profesionales.modificar
+);
+
+router.patch(
+  "/profesionales/:id/estado",
+  autenticar,
+  autorizar("ADMIN"),
+  profesionales.cambiarEstado
+);
+
+// Asociación de profesionales con tratamientos
+router.post(
+  "/profesionales/:id/tratamientos",
+  autenticar,
+  autorizar("ADMIN"),
+  profesionales.asociarTratamiento
+);
+
+router.delete(
+  "/profesionales/:id/tratamientos/:tratamientoId",
+  autenticar,
+  autorizar("ADMIN"),
+  profesionales.quitarTratamiento
+);
+
+// Consulta pública de horarios
+router.get(
+  "/profesionales/:id/horarios",
+  horarios.listar
+);
+
+// Administración de horarios
+router.post(
+  "/profesionales/:id/horarios",
+  autenticar,
+  autorizar("ADMIN"),
+  horarios.crear
+);
+
+router.put(
+  "/profesionales/:id/horarios/:horarioId",
+  autenticar,
+  autorizar("ADMIN"),
+  horarios.modificar
+);
+
+router.delete(
+  "/profesionales/:id/horarios/:horarioId",
+  autenticar,
+  autorizar("ADMIN"),
+  horarios.eliminar
 );
 
 module.exports = router;
