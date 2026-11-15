@@ -29,15 +29,15 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 
 - [X] **T12 – Definir la estructura del backend.** Separar rutas, controladores, servicios, middleware y acceso a datos.
 - [X] **T13 – Implementar registro.** Validar nombre, email único y contraseña; almacenar el hash.
-- [ ] **T14 – Implementar inicio de sesión.** Verificar credenciales y emitir el mecanismo de autenticación elegido.
-- [ ] **T15 – Implementar middleware de autenticación.** Identificar al usuario autenticado en las rutas protegidas.
-- [ ] **T16 – Implementar autorización por roles.** Restringir operaciones según los roles cliente, profesional y administrador.
+- [X] **T14 – Implementar inicio de sesión.** Verificar credenciales y emitir el mecanismo de autenticación elegido.
+- [X] **T15 – Implementar middleware de autenticación.** Identificar al usuario autenticado en las rutas protegidas.
+- [X] **T16 – Implementar autorización por roles.** Restringir operaciones según los roles cliente, profesional y administrador.
 - [ ] **T17 – Probar autenticación y permisos.** Cubrir credenciales incorrectas, usuarios inactivos, roles y acceso a datos ajenos.
 
 ## Etapa 4. Backend: tratamientos, profesionales y horarios
 
-- [ ] **T18 – Implementar consulta de tratamientos.** Exponer el catálogo de tratamientos activos.
-- [ ] **T19 – Implementar administración de tratamientos.** Permitir al administrador crear, modificar y desactivar tratamientos.
+- [X] **T18 – Implementar consulta de tratamientos.** Exponer el catálogo de tratamientos activos.
+- [X] **T19 – Implementar administración de tratamientos.** Permitir al administrador crear, modificar y desactivar tratamientos.
 - [ ] **T20 – Implementar consulta de profesionales.** Mostrar los profesionales activos y los tratamientos que realizan.
 - [ ] **T21 – Implementar administración de profesionales.** Permitir al administrador gestionar los perfiles y su estado.
 - [ ] **T22 – Implementar asociaciones profesional-tratamiento.** Validar qué servicios puede realizar cada profesional.
