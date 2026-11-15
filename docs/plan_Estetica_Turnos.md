@@ -19,9 +19,9 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 - [ ] **T04 – Inicializar el backend.** Crear el proyecto Node.js dentro de `backend/` y definir sus scripts.
 - [ ] **T05 – Instalar y configurar Express.** Preparar el servidor HTTP y una ruta básica de comprobación.
 - [ ] **T06 – Configurar variables de entorno.** Crear `.env.example`, configurar `.env` local y verificar que `.env` esté ignorado por Git.
-- [ ] **T07 – Instalar y configurar Prisma.** Configurar Prisma para PostgreSQL y ubicar `schema.prisma` en `backend/prisma/`.
+- [ ] **T07 – Configurar Prisma para MariaDB y ubicar `schema.prisma` en `backend/prisma/`.
 - [ ] **T08 – Validar el esquema de Prisma.** Ejecutar la validación del esquema y corregir cualquier error.
-- [ ] **T09 – Configurar PostgreSQL.** Crear una base de datos de desarrollo y configurar `DATABASE_URL` sin publicar credenciales.
+- [ ] **T09 – Crear una base de datos de desarrollo en MariaDB y configurar `DATABASE_URL` sin publicar credenciales.
 - [ ] **T10 – Crear la migración inicial.** Generar y aplicar la migración de las seis entidades del modelo.
 - [ ] **T11 – Preparar el acceso a datos.** Crear la instancia reutilizable de Prisma Client y comprobar una consulta sencilla.
 
@@ -48,7 +48,7 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 
 - [ ] **T25 – Implementar consulta de disponibilidad.** Calcular horarios posibles según jornada, duración del tratamiento y reservas confirmadas.
 - [ ] **T26 – Implementar creación de reservas.** Validar cliente, profesional, tratamiento, fecha, anticipación y horario.
-- [ ] **T27 – Evitar superposición de reservas.** Proteger la creación ante solicitudes simultáneas mediante transacción y controles adecuados en PostgreSQL.
+- [ ] **T27 – Proteger la creación ante solicitudes simultáneas mediante transacciones y controles adecuados en MariaDB.
 - [ ] **T28 – Implementar consulta de reservas.** Aplicar los permisos de cliente, profesional y administrador.
 - [ ] **T29 – Implementar cancelación por cliente.** Aplicar el límite de 24 horas y conservar el registro histórico.
 - [ ] **T30 – Implementar cancelación administrativa.** Permitir al administrador cancelar sin el límite de anticipación.
@@ -79,7 +79,7 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 
 ## Etapa 8. Publicación
 
-- [ ] **T49 – Publicar la base de datos.** Configurar PostgreSQL en un servicio accesible desde internet y aplicar las migraciones.
+- [ ] **T49 – Configurar MariaDB en un servicio accesible desde internet y aplicar las migraciones.
 - [ ] **T50 – Publicar el backend.** Desplegar la API y configurar sus variables de entorno.
 - [ ] **T51 – Publicar el frontend.** Desplegar la aplicación y configurar la URL de la API.
 - [ ] **T52 – Verificar la aplicación pública.** Probar desde un navegador externo los flujos principales y los permisos.

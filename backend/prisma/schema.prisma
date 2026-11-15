@@ -7,8 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "mysql"
 }
 
 enum RolUsuario {
@@ -40,7 +39,7 @@ model Usuario {
   passwordHash String       @map("password_hash") @db.VarChar(255)
   rol          RolUsuario   @default(CLIENTE)
   activo       Boolean      @default(true)
-  createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  createdAt    DateTime     @default(now()) @map("created_at") @db.DateTime(3)
 
   perfilProfesional Profesional?
   reservasComoCliente Reserva[] @relation("ClienteReservas")
@@ -105,11 +104,11 @@ model Reserva {
   clienteId      Int           @map("cliente_id")
   profesionalId  Int           @map("profesional_id")
   tratamientoId  Int           @map("tratamiento_id")
-  inicio         DateTime      @db.Timestamptz(3)
-  fin            DateTime      @db.Timestamptz(3)
+  inicio         DateTime      @db.DateTime(3)
+  fin            DateTime      @db.DateTime(3)
   precioAplicado Decimal       @map("precio_aplicado") @db.Decimal(10, 2)
   estado         EstadoReserva @default(CONFIRMADO)
-  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  createdAt      DateTime      @default(now()) @map("created_at") @db.DateTime(3)
 
   cliente     Usuario     @relation("ClienteReservas", fields: [clienteId], references: [id], onDelete: Restrict)
   profesional Profesional @relation(fields: [profesionalId], references: [id], onDelete: Restrict)

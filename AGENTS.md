@@ -1,4 +1,3 @@
-
 # AGENTS.md – Estética Turnos
 
 ## 1. Contexto del proyecto
@@ -16,7 +15,7 @@ El proyecto cuenta con:
 
 - Frontend: React.
 - Backend: Node.js y Express.
-- Base de datos: PostgreSQL.
+- Base de datos: MariaDB.
 - ORM: Prisma.
 - Control de versiones: Git y GitHub.
 
@@ -25,8 +24,9 @@ El proyecto cuenta con:
 Antes de implementar una funcionalidad, consultar:
 
 - `docs/spec.md`: especificación funcional y reglas de negocio.
-- `docs/base-de-datos.md`: diseño de la base de datos.
+- `docs/base_de_datos.md`: diseño de la base de datos.
 - `backend/prisma/schema.prisma`: modelos y relaciones.
+- `docs/plan_Estetica_Turnos.md`: tareas y etapas del desarrollo.
 
 La especificación es la referencia principal para determinar cómo debe comportarse el sistema.
 
@@ -37,7 +37,7 @@ Si una funcionalidad no está definida o existe una contradicción, no inventar 
 - Respetar la arquitectura y la separación de responsabilidades entre frontend y backend.
 - No colocar reglas de negocio únicamente en el frontend.
 - Validar los datos y permisos en el backend.
-- Utilizar Prisma para acceder a PostgreSQL.
+- Utilizar Prisma para acceder a MariaDB.
 - No duplicar lógica innecesariamente.
 - Mantener el código organizado y fácil de comprender.
 - No agregar funcionalidades que no estén contempladas en la especificación sin autorización.
@@ -55,11 +55,12 @@ Si una funcionalidad no está definida o existe una contradicción, no inventar 
 
 ## 6. Base de datos
 
-- Mantener los modelos de Prisma coherentes con `docs/base-de-datos.md`.
+- Mantener los modelos de Prisma coherentes con `docs/base_de_datos.md`.
 - No modificar el esquema sin revisar las consecuencias sobre las relaciones existentes.
-- Utilizar migraciones para registrar los cambios de estructura.
+- Utilizar migraciones de Prisma para registrar los cambios de estructura.
 - Conservar el historial de reservas canceladas y completadas.
 - Mantener el precio aplicado en cada reserva aunque cambie el precio del tratamiento.
+- No modificar manualmente la estructura de la base de datos sin actualizar el esquema y las migraciones correspondientes.
 
 ## 7. Pruebas
 
@@ -76,15 +77,18 @@ Si una funcionalidad no está definida o existe una contradicción, no inventar 
 - No subir dependencias instaladas ni archivos generados.
 - Mantener actualizado el README y la documentación.
 - Marcar las tareas como completadas únicamente cuando estén implementadas y verificadas.
+- No incluir archivos `.env`, contraseñas, tokens ni credenciales en los commits.
 
 ## 9. Forma de trabajo
 
 Antes de realizar cambios:
+
 1. Revisar la tarea y la documentación relacionada.
 2. Identificar los archivos que necesitan modificarse.
 3. Explicar brevemente qué cambios se realizarán.
 
 Después de realizar cambios:
+
 1. Revisar que la implementación respete la especificación.
 2. Ejecutar las pruebas correspondientes.
 3. Informar qué archivos se modificaron y qué pruebas se ejecutaron.
