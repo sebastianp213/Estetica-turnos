@@ -28,7 +28,7 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 ## Etapa 3. Backend: autenticación y usuarios
 
 - [X] **T12 – Definir la estructura del backend.** Separar rutas, controladores, servicios, middleware y acceso a datos.
-- [ ] **T13 – Implementar registro.** Validar nombre, email único y contraseña; almacenar el hash.
+- [X] **T13 – Implementar registro.** Validar nombre, email único y contraseña; almacenar el hash.
 - [ ] **T14 – Implementar inicio de sesión.** Verificar credenciales y emitir el mecanismo de autenticación elegido.
 - [ ] **T15 – Implementar middleware de autenticación.** Identificar al usuario autenticado en las rutas protegidas.
 - [ ] **T16 – Implementar autorización por roles.** Restringir operaciones según los roles cliente, profesional y administrador.
