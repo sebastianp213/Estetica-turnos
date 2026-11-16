@@ -9,8 +9,9 @@ import Tratamientos from './pages/Tratamientos'
 import Profesionales from './pages/Profesionales'
 import Login from './pages/Login'
 import Registro from './pages/Registro'
-
+import Reservas from './pages/Reservas'
 import './App.css'
+import MisReservas from './pages/MisReservas'
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
           <Route path="/profesionales" element={<Profesionales />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
+          <Route path="/reservar" element={<Reservas />} />
+          <Route path="/mis-reservas" element={<MisReservas />} />
         </Routes>
 
         <Footer />

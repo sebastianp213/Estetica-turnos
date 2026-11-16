@@ -60,10 +60,10 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 
 - [X] **T34 – Inicializar React.** Crear la aplicación dentro de `frontend/` y configurar sus scripts.
 - [X] **T35 – Preparar navegación y diseño general.** Crear estructura de páginas, navegación y componentes compartidos.
-- [ ] **T36 – Implementar registro e inicio de sesión.** Conectar los formularios con los endpoints de autenticación.
-- [ ] **T37 – Implementar catálogo.** Mostrar tratamientos y profesionales disponibles desde la API.
-- [ ] **T38 – Implementar flujo de reserva.** Permitir seleccionar tratamiento, profesional, fecha y horario disponible.
-- [ ] **T39 – Implementar sección de mis reservas.** Mostrar reservas propias y permitir cancelarlas según las reglas.
+- [X] **T36 – Implementar registro e inicio de sesión.** Conectar los formularios con los endpoints de autenticación.
+- [X] **T37 – Implementar catálogo.** Mostrar tratamientos y profesionales disponibles desde la API.
+- [X] **T38 – Implementar flujo de reserva.** Permitir seleccionar tratamiento, profesional, fecha y horario disponible.
+- [X] **T39 – Implementar sección de mis reservas.** Mostrar reservas propias y permitir cancelarlas según las reglas.
 - [ ] **T40 – Implementar panel profesional.** Mostrar agenda y permitir completar turnos asignados.
 - [ ] **T41 – Implementar panel administrador.** Gestionar tratamientos, profesionales, horarios y reservas.
 - [ ] **T42 – Manejar estados de interfaz.** Mostrar carga, errores, confirmaciones y estados vacíos en las pantallas.

@@ -375,3 +375,533 @@
     font-size: 30px;
   }
 }
+
+
+.auth-page {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 65px 20px;
+  background: #f0f0e9;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 480px;
+  padding: 42px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+}
+
+.auth-card h1 {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.auth-card > p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.auth-form label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  outline: none;
+  background: #faf9f6;
+  color: var(--dark);
+}
+
+.auth-form input:focus {
+  border-color: var(--sage);
+  box-shadow: 0 0 0 2px #82927d22;
+}
+
+.auth-form button {
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.auth-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-error {
+  color: #b42318 !important;
+  font-size: 13px !important;
+  margin: 8px 0 !important;
+}
+
+.form-success {
+  color: #36764b !important;
+  font-size: 13px !important;
+  margin: 8px 0 !important;
+}
+
+.auth-alternative {
+  text-align: center;
+  margin-top: 25px !important;
+  font-size: 13px !important;
+}
+
+.auth-alternative a {
+  color: var(--sage-dark);
+  font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 28px 22px;
+  }
+}
+
+.user-greeting {
+  color: var(--muted);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.logout-button {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+@media (max-width: 480px) {
+  .user-greeting {
+    font-size: 12px;
+  }
+}
+
+/* Catálogo de tratamientos */
+
+.treatments-page {
+  width: 100%;
+  max-width: 1200px;
+  min-height: 70vh;
+  margin: auto;
+  padding: 75px 30px;
+}
+
+.treatments-header {
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto 55px;
+}
+
+.treatments-header h1 {
+  font-size: 46px;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+
+.treatments-header p {
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.treatments-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.treatment-card {
+  padding: 32px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+}
+
+.treatment-icon {
+  color: var(--sage);
+  font-size: 32px;
+}
+
+.treatment-card h2 {
+  font-size: 24px;
+  margin: 18px 0 12px;
+}
+
+.treatment-description {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.8;
+  min-height: 75px;
+}
+
+.treatment-details {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  border-top: 1px solid var(--border);
+  margin-top: 22px;
+  padding-top: 18px;
+}
+
+.treatment-details span {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: var(--sage-dark);
+  font-size: 14px;
+}
+
+.treatment-details strong {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.treatments-message,
+.treatments-error {
+  text-align: center;
+  padding: 35px;
+  color: var(--muted);
+}
+
+.treatments-error {
+  color: #b42318;
+}
+
+@media (max-width: 800px) {
+  .treatments-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 550px) {
+  .treatments-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .treatments-header h1 {
+    font-size: 36px;
+  }
+}
+
+
+/* Flujo de reservas */
+
+.booking-page {
+  flex: 1;
+  width: 100%;
+  max-width: 850px;
+  margin: auto;
+  padding: 65px 25px;
+}
+
+.booking-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.booking-header h1 {
+  font-size: 44px;
+  font-weight: 500;
+  margin: 12px 0;
+}
+
+.booking-header p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.booking-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 38px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.booking-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.booking-field label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.booking-field select,
+.booking-field input {
+  width: 100%;
+  padding: 14px;
+  background: #faf9f6;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--dark);
+  font: inherit;
+}
+
+.booking-field select:disabled,
+.booking-field input:disabled {
+  opacity: 0.5;
+}
+
+.booking-field small,
+.booking-note {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.booking-search,
+.booking-confirm {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.booking-search:disabled,
+.booking-confirm:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.time-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.time-slot {
+  padding: 12px 20px;
+  border: 1px solid var(--sage);
+  border-radius: 5px;
+  background: white;
+  color: var(--sage-dark);
+  cursor: pointer;
+  font: inherit;
+}
+
+.time-slot:hover,
+.time-slot.selected {
+  background: var(--sage);
+  color: white;
+}
+
+.booking-confirm {
+  width: 100%;
+}
+
+@media (max-width: 550px) {
+  .booking-card {
+    padding: 24px 18px;
+  }
+
+  .booking-header h1 {
+    font-size: 35px;
+  }
+}
+
+/* Mis reservas */
+
+.my-bookings-page {
+  width: 100%;
+  max-width: 1000px;
+  min-height: 70vh;
+  margin: auto;
+  padding: 65px 30px;
+}
+
+.my-bookings-header {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.my-bookings-header h1 {
+  font-size: 44px;
+  font-weight: 500;
+  margin: 12px 0;
+}
+
+.my-bookings-header p {
+  color: var(--muted);
+  margin-bottom: 25px;
+}
+
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.booking-history-card {
+  padding: 28px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+}
+
+.booking-history-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.booking-number {
+  color: var(--sage-dark);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.booking-history-top h2 {
+  font-size: 24px;
+  margin-top: 8px;
+}
+
+.booking-status {
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status-confirmado {
+  background: #e8eee4;
+  color: #496a43;
+}
+
+.status-completado {
+  background: #e8edf5;
+  color: #435c80;
+}
+
+.status-cancelado {
+  background: #f7e9e7;
+  color: #a0443c;
+}
+
+.booking-professional {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.booking-history-details {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.booking-history-details div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.booking-history-details strong {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.booking-history-details span {
+  color: var(--dark);
+  font-size: 14px;
+}
+
+.cancel-booking-button {
+  margin-top: 22px;
+  padding: 11px 18px;
+  border: 1px solid #bd7770;
+  border-radius: 5px;
+  background: white;
+  color: #a0443c;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.cancel-booking-button:hover {
+  background: #f7e9e7;
+}
+
+.cancel-booking-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.booking-cancel-note {
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.empty-bookings {
+  padding: 55px 25px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  text-align: center;
+}
+
+.empty-bookings > span {
+  color: var(--sage);
+  font-size: 45px;
+}
+
+.empty-bookings h2 {
+  margin: 15px 0;
+  font-size: 25px;
+}
+
+.empty-bookings p {
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.empty-bookings a {
+  color: var(--sage-dark);
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .booking-history-details {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .booking-history-top {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .my-bookings-page {
+    padding: 45px 18px;
+  }
+
+  .booking-history-card {
+    padding: 22px 18px;
+  }
+}
