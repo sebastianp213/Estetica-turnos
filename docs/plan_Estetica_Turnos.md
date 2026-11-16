@@ -38,11 +38,11 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 
 - [X] **T18 – Implementar consulta de tratamientos.** Exponer el catálogo de tratamientos activos.
 - [X] **T19 – Implementar administración de tratamientos.** Permitir al administrador crear, modificar y desactivar tratamientos.
-- [ ] **T20 – Implementar consulta de profesionales.** Mostrar los profesionales activos y los tratamientos que realizan.
-- [ ] **T21 – Implementar administración de profesionales.** Permitir al administrador gestionar los perfiles y su estado.
-- [ ] **T22 – Implementar asociaciones profesional-tratamiento.** Validar qué servicios puede realizar cada profesional.
-- [ ] **T23 – Implementar horarios de atención.** Permitir al administrador configurar un bloque continuo por día para cada profesional.
-- [ ] **T24 – Probar reglas de catálogo y agenda.** Verificar duraciones, precios, estados, asociaciones y horarios.
+- [X] **T20 – Implementar consulta de profesionales.** Mostrar los profesionales activos y los tratamientos que realizan.
+- [X] **T21 – Implementar administración de profesionales.** Permitir al administrador gestionar los perfiles y su estado.
+- [X] **T22 – Implementar asociaciones profesional-tratamiento.** Validar qué servicios puede realizar cada profesional.
+- [X] **T23 – Implementar horarios de atención.** Permitir al administrador configurar un bloque continuo por día para cada profesional.
+- [X] **T24 – Probar reglas de catálogo y agenda.** Verificar duraciones, precios, estados, asociaciones y horarios.
 
 ## Etapa 5. Backend: disponibilidad y reservas
 
