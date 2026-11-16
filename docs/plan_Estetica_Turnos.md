@@ -46,15 +46,15 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 
 ## Etapa 5. Backend: disponibilidad y reservas
 
-- [ ] **T25 – Implementar consulta de disponibilidad.** Calcular horarios posibles según jornada, duración del tratamiento y reservas confirmadas.
-- [ ] **T26 – Implementar creación de reservas.** Validar cliente, profesional, tratamiento, fecha, anticipación y horario.
-- [ ] **T27 – Evitar superposición de reservas.** Proteger la creación ante solicitudes simultáneas mediante transacciones y controles adecuados en MariaDB.
-- [ ] **T28 – Implementar consulta de reservas.** Aplicar los permisos de cliente, profesional y administrador.
-- [ ] **T29 – Implementar cancelación por cliente.** Aplicar el límite de 24 horas y conservar el registro histórico.
-- [ ] **T30 – Implementar cancelación administrativa.** Permitir al administrador cancelar sin el límite de anticipación.
-- [ ] **T31 – Implementar finalización de turnos.** Permitir al profesional asignado o al administrador marcar una reserva como completada.
-- [ ] **T32 – Validar transiciones de estado.** Rechazar cambios de estado no permitidos.
-- [ ] **T33 – Probar reglas de reservas.** Cubrir casos válidos, errores, límites de tiempo, superposición, permisos e historial.
+- [X] **T25 – Implementar consulta de disponibilidad.** Calcular horarios posibles según jornada, duración del tratamiento y reservas confirmadas.
+- [X] **T26 – Implementar creación de reservas.** Validar cliente, profesional, tratamiento, fecha, anticipación y horario.
+- [X] **T27 – Evitar superposición de reservas.** Proteger la creación ante solicitudes simultáneas mediante transacciones y controles adecuados en MariaDB.
+- [X] **T28 – Implementar consulta de reservas.** Aplicar los permisos de cliente, profesional y administrador.
+- [X] **T29 – Implementar cancelación por cliente.** Aplicar el límite de 24 horas y conservar el registro histórico.
+- [X] **T30 – Implementar cancelación administrativa.** Permitir al administrador cancelar sin el límite de anticipación.
+- [X] **T31 – Implementar finalización de turnos.** Permitir al profesional asignado o al administrador marcar una reserva como completada.
+- [X] **T32 – Validar transiciones de estado.** Rechazar cambios de estado no permitidos.
+- [X] **T33 – Probar reglas de reservas.** Cubrir casos válidos, errores, límites de tiempo, superposición, permisos e historial.
 
 ## Etapa 6. Frontend
 
