@@ -9,6 +9,8 @@ const horarios = require("../controllers/horario.controller");
 const autenticar = require("../middlewares/autenticar");
 const autorizar = require("../middlewares/autorizar");
 
+const reservas = require("../controllers/reserva.controller");
+
 const router = express.Router();
 
 // Comprobación de la API
@@ -124,6 +126,41 @@ router.post(
   horarios.crear
 );
 
+// Consulta de reservas según el rol
+router.get(
+  "/reservas",
+  autenticar,
+  autorizar("CLIENTE", "PROFESIONAL", "ADMIN"),
+  reservas.listar
+);
+
+// Cancelación de reservas por clientes
+router.patch(
+  "/reservas/:id/cancelar",
+  autenticar,
+  autorizar("CLIENTE"),
+  reservas.cancelar
+);
+
+// Cancelación de reservas por administradores
+router.patch(
+  "/reservas/:id/cancelar-admin",
+  autenticar,
+  autorizar("ADMIN"),
+  reservas.cancelarAdmin
+);
+
+// Completar turnos: profesional asignado o administrador
+router.patch(
+  "/reservas/:id/completar",
+  autenticar,
+  autorizar("PROFESIONAL", "ADMIN"),
+  reservas.completar
+);
+
+
+
+
 router.put(
   "/profesionales/:id/horarios/:horarioId",
   autenticar,
@@ -137,5 +174,20 @@ router.delete(
   autorizar("ADMIN"),
   horarios.eliminar
 );
+
+// Consulta pública de disponibilidad
+router.get(
+  "/disponibilidad",
+  reservas.disponibilidad
+);
+
+// Creación de reservas para clientes autenticados
+router.post(
+  "/reservas",
+  autenticar,
+  autorizar("CLIENTE"),
+  reservas.crear
+);
+
 
 module.exports = router;
