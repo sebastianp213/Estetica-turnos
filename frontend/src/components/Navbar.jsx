@@ -32,6 +32,10 @@ function Navbar() {
               <NavLink to="/mis-reservas">Mis reservas</NavLink>
             </>
           )}
+
+          {autenticado && usuario?.rol === 'PROFESIONAL' && (
+            <NavLink to="/panel-profesional">Mi agenda</NavLink>
+          )}
         </div>
 
         <div className="nav-actions">

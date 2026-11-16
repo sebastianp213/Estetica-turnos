@@ -63,3 +63,12 @@ export async function cancelarReserva(reservaId, token) {
     },
   })
 }
+
+export async function completarReserva(reservaId, token) {
+  return solicitar(`/reservas/${reservaId}/completar`, {
+    method: 'PATCH',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}

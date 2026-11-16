@@ -10,8 +10,10 @@ import Profesionales from './pages/Profesionales'
 import Login from './pages/Login'
 import Registro from './pages/Registro'
 import Reservas from './pages/Reservas'
-import './App.css'
 import MisReservas from './pages/MisReservas'
+import PanelProfesional from './pages/PanelProfesional'
+
+import './App.css'
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
           <Route path="/registro" element={<Registro />} />
           <Route path="/reservar" element={<Reservas />} />
           <Route path="/mis-reservas" element={<MisReservas />} />
+          <Route path="/panel-profesional" element={<PanelProfesional />} />
         </Routes>
 
         <Footer />
