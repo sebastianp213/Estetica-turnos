@@ -45,7 +45,7 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 - [X] **T24 – Probar reglas de catálogo y agenda.** Verificar duraciones, precios, estados, asociaciones y horarios.
 
 ## Etapa 5. Backend: disponibilidad y reservas
-
+    **Estado: COMPLETADA**
 - [X] **T25 – Implementar consulta de disponibilidad.** Calcular horarios posibles según jornada, duración del tratamiento y reservas confirmadas.
 - [X] **T26 – Implementar creación de reservas.** Validar cliente, profesional, tratamiento, fecha, anticipación y horario.
 - [X] **T27 – Evitar superposición de reservas.** Proteger la creación ante solicitudes simultáneas mediante transacciones y controles adecuados en MariaDB.
@@ -58,8 +58,8 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 
 ## Etapa 6. Frontend
 
-- [ ] **T34 – Inicializar React.** Crear la aplicación dentro de `frontend/` y configurar sus scripts.
-- [ ] **T35 – Preparar navegación y diseño general.** Crear estructura de páginas, navegación y componentes compartidos.
+- [X] **T34 – Inicializar React.** Crear la aplicación dentro de `frontend/` y configurar sus scripts.
+- [X] **T35 – Preparar navegación y diseño general.** Crear estructura de páginas, navegación y componentes compartidos.
 - [ ] **T36 – Implementar registro e inicio de sesión.** Conectar los formularios con los endpoints de autenticación.
 - [ ] **T37 – Implementar catálogo.** Mostrar tratamientos y profesionales disponibles desde la API.
 - [ ] **T38 – Implementar flujo de reserva.** Permitir seleccionar tratamiento, profesional, fecha y horario disponible.
