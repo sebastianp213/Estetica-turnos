@@ -7,19 +7,45 @@ function Tratamientos() {
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    async function cargarTratamientos() {
-      try {
-        const datos = await obtenerTratamientos()
-        setTratamientos(datos)
-      } catch (error) {
-        setError(error.message)
-      } finally {
-        setCargando(false)
-      }
-    }
+  function cargarTratamientos() {
+    setCargando(true)
+    setError('')
 
-    cargarTratamientos()
+    obtenerTratamientos()
+      .then((datos) => {
+        setTratamientos(Array.isArray(datos) ? datos : [])
+      })
+      .catch((error) => {
+        setError(error.message || 'No se pudieron cargar los tratamientos.')
+      })
+      .finally(() => {
+        setCargando(false)
+      })
+  }
+
+  useEffect(() => {
+    let activo = true
+
+    obtenerTratamientos()
+      .then((datos) => {
+        if (activo) {
+          setTratamientos(Array.isArray(datos) ? datos : [])
+        }
+      })
+      .catch((error) => {
+        if (activo) {
+          setError(error.message || 'No se pudieron cargar los tratamientos.')
+        }
+      })
+      .finally(() => {
+        if (activo) {
+          setCargando(false)
+        }
+      })
+
+    return () => {
+      activo = false
+    }
   }, [])
 
   function formatearPrecio(precio) {
@@ -42,18 +68,24 @@ function Tratamientos() {
       </header>
 
       {cargando && (
-        <p className="treatments-message">
+        <p className="treatments-message" role="status">
           Cargando tratamientos...
         </p>
       )}
 
-      {error && (
-        <p className="treatments-error">{error}</p>
+      {!cargando && error && (
+        <div className="treatments-error" role="alert">
+          <p>{error}</p>
+          <button type="button" onClick={cargarTratamientos}>
+            Volver a intentar
+          </button>
+        </div>
       )}
 
       {!cargando && !error && tratamientos.length === 0 && (
         <p className="treatments-message">
           Actualmente no hay tratamientos disponibles.
+          Volvé a consultar más adelante.
         </p>
       )}
 
@@ -62,11 +94,11 @@ function Tratamientos() {
           {tratamientos.map((tratamiento) => (
             <article className="treatment-card" key={tratamiento.id}>
               <span className="treatment-icon">✿</span>
-
               <h2>{tratamiento.nombre}</h2>
 
               <p className="treatment-description">
-                {tratamiento.descripcion || 'Un momento dedicado a tu bienestar.'}
+                {tratamiento.descripcion ||
+                  'Un momento dedicado a tu bienestar.'}
               </p>
 
               <div className="treatment-details">

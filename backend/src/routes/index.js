@@ -1,3 +1,4 @@
+
 const express = require("express");
 
 const { registrar } = require("../controllers/usuario.controller");
@@ -5,11 +6,11 @@ const { login } = require("../controllers/auth.controller");
 const tratamientos = require("../controllers/tratamiento.controller");
 const profesionales = require("../controllers/profesional.controller");
 const horarios = require("../controllers/horario.controller");
+const reservas = require("../controllers/reserva.controller");
+const admin = require("../controllers/admin.controller");
 
 const autenticar = require("../middlewares/autenticar");
 const autorizar = require("../middlewares/autorizar");
-
-const reservas = require("../controllers/reserva.controller");
 
 const router = express.Router();
 
@@ -20,36 +21,37 @@ router.get("/", (req, res) => {
   });
 });
 
-// Registro de clientes
+// Registro e inicio de sesión
 router.post("/usuarios/registro", registrar);
-
-// Inicio de sesión
 router.post("/auth/login", login);
 
-// Perfil de usuario autenticado
+// Perfil autenticado
 router.get("/auth/perfil", autenticar, (req, res) => {
-  res.json({
-    usuario: req.usuario
-  });
+  res.json({ usuario: req.usuario });
 });
 
-// Ruta de prueba exclusiva para administradores
+// Ruta de prueba para administradores
 router.get(
   "/auth/admin",
   autenticar,
   autorizar("ADMIN"),
   (req, res) => {
-    res.json({
-      mensaje: "Acceso autorizado para administradores"
-    });
+    res.json({ mensaje: "Acceso autorizado para administradores" });
   }
 );
 
-// Consulta pública de tratamientos
+// Consultas públicas de tratamientos
 router.get("/tratamientos", tratamientos.listar);
 router.get("/tratamientos/:id", tratamientos.obtenerUno);
 
 // Administración de tratamientos
+router.get(
+  "/admin/tratamientos",
+  autenticar,
+  autorizar("ADMIN"),
+  admin.listarTratamientos
+);
+
 router.post(
   "/tratamientos",
   autenticar,
@@ -71,11 +73,25 @@ router.patch(
   tratamientos.desactivar
 );
 
-// Consulta pública de profesionales
+router.patch(
+  "/admin/tratamientos/:id/estado",
+  autenticar,
+  autorizar("ADMIN"),
+  admin.cambiarEstadoTratamiento
+);
+
+// Consultas públicas de profesionales
 router.get("/profesionales", profesionales.listar);
 router.get("/profesionales/:id", profesionales.obtenerUno);
 
 // Administración de profesionales
+router.get(
+  "/admin/profesionales",
+  autenticar,
+  autorizar("ADMIN"),
+  admin.listarProfesionales
+);
+
 router.post(
   "/profesionales",
   autenticar,
@@ -112,54 +128,15 @@ router.delete(
   profesionales.quitarTratamiento
 );
 
-// Consulta pública de horarios
-router.get(
-  "/profesionales/:id/horarios",
-  horarios.listar
-);
+// Horarios
+router.get("/profesionales/:id/horarios", horarios.listar);
 
-// Administración de horarios
 router.post(
   "/profesionales/:id/horarios",
   autenticar,
   autorizar("ADMIN"),
   horarios.crear
 );
-
-// Consulta de reservas según el rol
-router.get(
-  "/reservas",
-  autenticar,
-  autorizar("CLIENTE", "PROFESIONAL", "ADMIN"),
-  reservas.listar
-);
-
-// Cancelación de reservas por clientes
-router.patch(
-  "/reservas/:id/cancelar",
-  autenticar,
-  autorizar("CLIENTE"),
-  reservas.cancelar
-);
-
-// Cancelación de reservas por administradores
-router.patch(
-  "/reservas/:id/cancelar-admin",
-  autenticar,
-  autorizar("ADMIN"),
-  reservas.cancelarAdmin
-);
-
-// Completar turnos: profesional asignado o administrador
-router.patch(
-  "/reservas/:id/completar",
-  autenticar,
-  autorizar("PROFESIONAL", "ADMIN"),
-  reservas.completar
-);
-
-
-
 
 router.put(
   "/profesionales/:id/horarios/:horarioId",
@@ -175,13 +152,14 @@ router.delete(
   horarios.eliminar
 );
 
-// Consulta pública de disponibilidad
+// Reservas
 router.get(
-  "/disponibilidad",
-  reservas.disponibilidad
+  "/reservas",
+  autenticar,
+  autorizar("CLIENTE", "PROFESIONAL", "ADMIN"),
+  reservas.listar
 );
 
-// Creación de reservas para clientes autenticados
 router.post(
   "/reservas",
   autenticar,
@@ -189,5 +167,28 @@ router.post(
   reservas.crear
 );
 
+router.patch(
+  "/reservas/:id/cancelar",
+  autenticar,
+  autorizar("CLIENTE"),
+  reservas.cancelar
+);
+
+router.patch(
+  "/reservas/:id/cancelar-admin",
+  autenticar,
+  autorizar("ADMIN"),
+  reservas.cancelarAdmin
+);
+
+router.patch(
+  "/reservas/:id/completar",
+  autenticar,
+  autorizar("PROFESIONAL", "ADMIN"),
+  reservas.completar
+);
+
+// Disponibilidad pública
+router.get("/disponibilidad", reservas.disponibilidad);
 
 module.exports = router;

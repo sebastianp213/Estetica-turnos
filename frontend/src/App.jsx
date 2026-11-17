@@ -12,6 +12,7 @@ import Registro from './pages/Registro'
 import Reservas from './pages/Reservas'
 import MisReservas from './pages/MisReservas'
 import PanelProfesional from './pages/PanelProfesional'
+import PanelAdmin from './pages/PanelAdmin'
 
 import './App.css'
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/reservar" element={<Reservas />} />
           <Route path="/mis-reservas" element={<MisReservas />} />
           <Route path="/panel-profesional" element={<PanelProfesional />} />
+          <Route path="/panel-admin" element={<PanelAdmin />} />
         </Routes>
 
         <Footer />
