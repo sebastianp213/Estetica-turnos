@@ -79,9 +79,9 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 
 ## Etapa 8. Publicación
 
-- [ ] **T49 – Publicar la base de datos.** Configurar MariaDB en un servicio accesible desde internet y aplicar las migraciones.
-- [ ] **T50 – Publicar el backend.** Desplegar la API y configurar sus variables de entorno.
-- [ ] **T51 – Publicar el frontend.** Desplegar la aplicación y configurar la URL de la API.
+- [X] **T49 – Publicar la base de datos.** Configurar MariaDB en un servicio accesible desde internet y aplicar las migraciones.
+- [X] **T50 – Publicar el backend.** Desplegar la API y configurar sus variables de entorno.
+- [X] **T51 – Publicar el frontend.** Desplegar la aplicación y configurar la URL de la API.
 - [ ] **T52 – Verificar la aplicación pública.** Probar desde un navegador externo los flujos principales y los permisos.
 - [ ] **T53 – Preparar la entrega.** Verificar el repositorio público, documentación, pruebas, tareas y enlaces de acceso.
 

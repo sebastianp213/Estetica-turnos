@@ -1,4 +1,3 @@
-
 import { useCallback, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
@@ -39,6 +38,9 @@ function PanelAdmin() {
   const [profesionalHorario, setProfesionalHorario] = useState('')
   const [horarioEditando, setHorarioEditando] = useState(null)
 
+  // NUEVO: tratamiento seleccionado para cada profesional
+  const [tratamientoSeleccionado, setTratamientoSeleccionado] = useState({})
+
   const [formTratamiento, setFormTratamiento] = useState({
     nombre: '',
     descripcion: '',
@@ -61,8 +63,6 @@ function PanelAdmin() {
 
   const cargarDatos = useCallback(async () => {
     if (!token) return
-
-    
 
     try {
       const [datosTratamientos, datosProfesionales, datosReservas] =
@@ -97,58 +97,56 @@ function PanelAdmin() {
   }, [token])
 
   useEffect(() => {
-  let activo = true
+    let activo = true
 
-  async function cargarInicial() {
-    if (!token) {
-      setCargando(false)
-      return
-    }
-
-    try {
-      const [datosTratamientos, datosProfesionales, datosReservas] =
-        await Promise.all([
-          admin.obtenerTratamientosAdmin(token),
-          admin.obtenerProfesionalesAdmin(token),
-          admin.obtenerReservasAdmin(token),
-        ])
-
-      if (!activo) return
-
-      setTratamientos(
-        Array.isArray(datosTratamientos)
-          ? datosTratamientos
-          : datosTratamientos.tratamientos || []
-      )
-
-      setProfesionales(
-        Array.isArray(datosProfesionales)
-          ? datosProfesionales
-          : datosProfesionales.profesionales || []
-      )
-
-      setReservas(
-        Array.isArray(datosReservas)
-          ? datosReservas
-          : datosReservas.reservas || []
-      )
-    } catch (err) {
-      if (activo) {
-        setError(err.message || 'No se pudieron cargar los datos')
-      }
-    } finally {
-      if (activo) {
+    async function cargarInicial() {
+      if (!token) {
         setCargando(false)
+        return
+      }
+
+      try {
+        const [datosTratamientos, datosProfesionales, datosReservas] =
+          await Promise.all([
+            admin.obtenerTratamientosAdmin(token),
+            admin.obtenerProfesionalesAdmin(token),
+            admin.obtenerReservasAdmin(token),
+          ])
+
+        if (!activo) return
+
+        setTratamientos(
+          Array.isArray(datosTratamientos)
+            ? datosTratamientos
+            : datosTratamientos.tratamientos || []
+        )
+
+        setProfesionales(
+          Array.isArray(datosProfesionales)
+            ? datosProfesionales
+            : datosProfesionales.profesionales || []
+        )
+
+        setReservas(
+          Array.isArray(datosReservas)
+            ? datosReservas
+            : datosReservas.reservas || []
+        )
+      } catch (err) {
+        if (activo) {
+          setError(err.message || 'No se pudieron cargar los datos')
+        }
+      } finally {
+        if (activo) setCargando(false)
       }
     }
-  }
 
-  cargarInicial()
+    cargarInicial()
 
-  return () => {
-    activo = false
-  }
-}, [token])
+    return () => {
+      activo = false
+    }
+  }, [token])
 
   if (cargandoAuth) {
     return <main className="admin-page"><p>Cargando...</p></main>
@@ -183,6 +181,8 @@ function PanelAdmin() {
       setGuardando(false)
     }
   }
+
+  // TRATAMIENTOS
 
   function editarTratamiento(tratamiento) {
     setTratamientoEditando(tratamiento.id)
@@ -220,11 +220,14 @@ function PanelAdmin() {
       } else {
         await admin.crearTratamiento(datos, token)
       }
+
       limpiarTratamiento()
     }, tratamientoEditando
       ? 'Tratamiento actualizado correctamente'
       : 'Tratamiento creado correctamente')
   }
+
+  // PROFESIONALES
 
   function editarProfesional(profesional) {
     setProfesionalEditando(profesional.id)
@@ -265,11 +268,61 @@ function PanelAdmin() {
       } else {
         await admin.crearProfesional(datos, token)
       }
+
       limpiarProfesional()
     }, profesionalEditando
       ? 'Profesional actualizado correctamente'
       : 'Profesional creado correctamente')
   }
+
+  // NUEVO: TRATAMIENTOS POR PROFESIONAL
+
+  function obtenerTratamientosAsignados(profesional) {
+    return profesional.tratamientos || []
+  }
+
+  function obtenerIdsTratamientos(profesional) {
+    return obtenerTratamientosAsignados(profesional)
+      .map((item) => item.tratamiento?.id)
+      .filter(Boolean)
+  }
+
+  async function asignarTratamiento(profesional) {
+    const tratamientoId = tratamientoSeleccionado[profesional.id]
+
+    if (!tratamientoId) {
+      setError('Seleccioná un tratamiento para asignar')
+      setMensaje('')
+      return
+    }
+
+    await ejecutarAccion(
+      () => admin.asociarTratamiento(
+        profesional.id,
+        Number(tratamientoId),
+        token
+      ),
+      'Tratamiento asignado correctamente'
+    )
+
+    setTratamientoSeleccionado((prev) => ({
+      ...prev,
+      [profesional.id]: '',
+    }))
+  }
+
+  async function eliminarTratamiento(profesional, tratamientoId) {
+    await ejecutarAccion(
+      () => admin.quitarTratamiento(
+        profesional.id,
+        tratamientoId,
+        token
+      ),
+      'Tratamiento eliminado correctamente'
+    )
+  }
+
+  // HORARIOS
 
   function seleccionarHorario(profesionalId) {
     setProfesionalHorario(profesionalId)
@@ -341,10 +394,12 @@ function PanelAdmin() {
           <strong>{tratamientos.length}</strong>
           <span>Tratamientos</span>
         </article>
+
         <article>
           <strong>{profesionales.filter((p) => p.activo).length}</strong>
           <span>Profesionales activos</span>
         </article>
+
         <article>
           <strong>{reservas.filter((r) => r.estado === 'CONFIRMADO').length}</strong>
           <span>Reservas confirmadas</span>
@@ -385,7 +440,9 @@ function PanelAdmin() {
               </div>
 
               <form className="admin-form" onSubmit={guardarTratamiento}>
-                <h3>{tratamientoEditando ? 'Editar tratamiento' : 'Nuevo tratamiento'}</h3>
+                <h3>
+                  {tratamientoEditando ? 'Editar tratamiento' : 'Nuevo tratamiento'}
+                </h3>
 
                 <div className="admin-form-grid">
                   <label>
@@ -445,10 +502,19 @@ function PanelAdmin() {
 
                 <div className="admin-form-actions">
                   <button className="admin-primary-button" disabled={guardando}>
-                    {guardando ? 'Guardando...' : tratamientoEditando ? 'Guardar cambios' : 'Crear tratamiento'}
+                    {guardando
+                      ? 'Guardando...'
+                      : tratamientoEditando
+                        ? 'Guardar cambios'
+                        : 'Crear tratamiento'}
                   </button>
+
                   {tratamientoEditando && (
-                    <button type="button" className="admin-secondary-button" onClick={limpiarTratamiento}>
+                    <button
+                      type="button"
+                      className="admin-secondary-button"
+                      onClick={limpiarTratamiento}
+                    >
                       Cancelar edición
                     </button>
                   )}
@@ -466,14 +532,20 @@ function PanelAdmin() {
                         <h3>{tratamiento.nombre}</h3>
                         <p>{tratamiento.descripcion || 'Sin descripción'}</p>
                         <small>
-                          {tratamiento.duracionMinutos} minutos · ${Number(tratamiento.precio).toLocaleString('es-AR')}
+                          {tratamiento.duracionMinutos} minutos · $
+                          {Number(tratamiento.precio).toLocaleString('es-AR')}
                         </small>
                       </div>
                     </div>
+
                     <div className="admin-item-actions">
-                      <button className="admin-secondary-button" onClick={() => editarTratamiento(tratamiento)}>
+                      <button
+                        className="admin-secondary-button"
+                        onClick={() => editarTratamiento(tratamiento)}
+                      >
                         Editar
                       </button>
+
                       <button
                         className="admin-secondary-button"
                         disabled={guardando}
@@ -483,7 +555,9 @@ function PanelAdmin() {
                             !tratamiento.activo,
                             token
                           ),
-                          tratamiento.activo ? 'Tratamiento desactivado' : 'Tratamiento activado'
+                          tratamiento.activo
+                            ? 'Tratamiento desactivado'
+                            : 'Tratamiento activado'
                         )}
                       >
                         {tratamiento.activo ? 'Desactivar' : 'Activar'}
@@ -491,14 +565,16 @@ function PanelAdmin() {
                     </div>
                   </article>
                 ))}
+
                 {tratamientos.length === 0 && (
-                  <div className="admin-empty">Todavía no hay tratamientos registrados.</div>
+                  <div className="admin-empty">
+                    Todavía no hay tratamientos registrados.
+                  </div>
                 )}
               </div>
             </section>
           )}
-
-          {pestana === 'profesionales' && (
+                    {pestana === 'profesionales' && (
             <section className="admin-section">
               <div className="admin-section-heading">
                 <div>
@@ -508,7 +584,11 @@ function PanelAdmin() {
               </div>
 
               <form className="admin-form" onSubmit={guardarProfesional}>
-                <h3>{profesionalEditando ? 'Editar profesional' : 'Nuevo profesional'}</h3>
+                <h3>
+                  {profesionalEditando
+                    ? 'Editar profesional'
+                    : 'Nuevo profesional'}
+                </h3>
 
                 <div className="admin-form-grid">
                   <label>
@@ -568,15 +648,23 @@ function PanelAdmin() {
 
                 <div className="admin-form-actions">
                   <button className="admin-primary-button" disabled={guardando}>
-                    {guardando ? 'Guardando...' : profesionalEditando ? 'Guardar cambios' : 'Crear profesional'}
+                    {guardando
+                      ? 'Guardando...'
+                      : profesionalEditando
+                        ? 'Guardar cambios'
+                        : 'Crear profesional'}
                   </button>
+
                   {profesionalEditando && (
-                    <button type="button" className="admin-secondary-button" onClick={limpiarProfesional}>
+                    <button
+                      type="button"
+                      className="admin-secondary-button"
+                      onClick={limpiarProfesional}
+                    >
                       Cancelar edición
                     </button>
                   )}
                 </div>
-                
               </form>
 
               <div className="admin-list">
@@ -587,20 +675,100 @@ function PanelAdmin() {
                         <span className={`admin-state ${profesional.activo ? 'is-active' : 'is-inactive'}`}>
                           {profesional.activo ? 'Activo' : 'Inactivo'}
                         </span>
+
                         <h3>{profesional.usuario?.nombre}</h3>
                         <p>{profesional.usuario?.email}</p>
-                        <small>{profesional.descripcion || 'Sin descripción'}</small>
-                        <p className="admin-associated">
-                          Tratamientos: {profesional.tratamientos?.length
-                            ? profesional.tratamientos.map((item) => item.tratamiento?.nombre).filter(Boolean).join(', ')
-                            : 'Sin tratamientos asociados'}
-                        </p>
+                        <small>
+                          {profesional.descripcion || 'Sin descripción'}
+                        </small>
                       </div>
                     </div>
+
+                    {/* ASIGNACIÓN DE TRATAMIENTOS */}
+                    <div className="admin-profesional-tratamientos">
+                      <h4>Tratamientos asignados</h4>
+
+                      <div className="admin-tratamientos-tags">
+                        {profesional.tratamientos?.length > 0 ? (
+                          profesional.tratamientos.map((item) => (
+                            <span
+                              className="admin-tratamiento-tag"
+                              key={item.tratamiento?.id}
+                            >
+                              {item.tratamiento?.nombre}
+
+                              <button
+                                type="button"
+                                title="Quitar tratamiento"
+                                disabled={guardando}
+                                onClick={() => eliminarTratamiento(
+                                  profesional,
+                                  item.tratamiento.id
+                                )}
+                              >
+                                ×
+                              </button>
+                            </span>
+                          ))
+                        ) : (
+                          <span className="admin-tratamientos-vacio">
+                            No tiene tratamientos asignados
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="admin-asignar-tratamiento">
+                        <select
+                          value={tratamientoSeleccionado[profesional.id] || ''}
+                          onChange={(e) => setTratamientoSeleccionado((prev) => ({
+                            ...prev,
+                            [profesional.id]: e.target.value,
+                          }))}
+                          disabled={guardando}
+                        >
+                          <option value="">
+                            Seleccionar tratamiento
+                          </option>
+
+                          {tratamientos
+                            .filter((tratamiento) => tratamiento.activo)
+                            .filter((tratamiento) =>
+                              !obtenerIdsTratamientos(profesional).some(
+                                (id) => String(id) === String(tratamiento.id)
+                              )
+                            )
+                            .map((tratamiento) => (
+                              <option
+                                key={tratamiento.id}
+                                value={tratamiento.id}
+                              >
+                                {tratamiento.nombre}
+                              </option>
+                            ))}
+                        </select>
+
+                        <button
+                          type="button"
+                          className="admin-primary-button"
+                          disabled={
+                            guardando ||
+                            !tratamientoSeleccionado[profesional.id]
+                          }
+                          onClick={() => asignarTratamiento(profesional)}
+                        >
+                          Asignar
+                        </button>
+                      </div>
+                    </div>
+
                     <div className="admin-item-actions">
-                      <button className="admin-secondary-button" onClick={() => editarProfesional(profesional)}>
+                      <button
+                        className="admin-secondary-button"
+                        onClick={() => editarProfesional(profesional)}
+                      >
                         Editar
                       </button>
+
                       <button
                         className="admin-secondary-button"
                         disabled={guardando}
@@ -610,7 +778,9 @@ function PanelAdmin() {
                             !profesional.activo,
                             token
                           ),
-                          profesional.activo ? 'Profesional desactivado' : 'Profesional activado'
+                          profesional.activo
+                            ? 'Profesional desactivado'
+                            : 'Profesional activado'
                         )}
                       >
                         {profesional.activo ? 'Desactivar' : 'Activar'}
@@ -618,8 +788,11 @@ function PanelAdmin() {
                     </div>
                   </article>
                 ))}
+
                 {profesionales.length === 0 && (
-                  <div className="admin-empty">Todavía no hay profesionales registrados.</div>
+                  <div className="admin-empty">
+                    Todavía no hay profesionales registrados.
+                  </div>
                 )}
               </div>
             </section>
@@ -630,7 +803,9 @@ function PanelAdmin() {
               <div className="admin-section-heading">
                 <div>
                   <h2>Horarios de atención</h2>
-                  <p>Configurá los días y bloques de atención de cada profesional.</p>
+                  <p>
+                    Configurá los días y bloques de atención de cada profesional.
+                  </p>
                 </div>
               </div>
 
@@ -641,6 +816,7 @@ function PanelAdmin() {
                   onChange={(e) => seleccionarHorario(e.target.value)}
                 >
                   <option value="">Seleccionar profesional</option>
+
                   {profesionales.filter((p) => p.activo).map((profesional) => (
                     <option key={profesional.id} value={profesional.id}>
                       {profesional.usuario?.nombre}
@@ -652,7 +828,9 @@ function PanelAdmin() {
               {profesionalSeleccionado && (
                 <>
                   <form className="admin-form" onSubmit={guardarHorario}>
-                    <h3>{horarioEditando ? 'Editar horario' : 'Agregar horario'}</h3>
+                    <h3>
+                      {horarioEditando ? 'Editar horario' : 'Agregar horario'}
+                    </h3>
 
                     <div className="admin-form-grid">
                       <label>
@@ -665,7 +843,9 @@ function PanelAdmin() {
                           })}
                         >
                           {DIAS.map((dia) => (
-                            <option key={dia} value={dia}>{dia}</option>
+                            <option key={dia} value={dia}>
+                              {dia}
+                            </option>
                           ))}
                         </select>
                       </label>
@@ -699,8 +879,13 @@ function PanelAdmin() {
 
                     <div className="admin-form-actions">
                       <button className="admin-primary-button" disabled={guardando}>
-                        {guardando ? 'Guardando...' : horarioEditando ? 'Guardar cambios' : 'Agregar horario'}
+                        {guardando
+                          ? 'Guardando...'
+                          : horarioEditando
+                            ? 'Guardar cambios'
+                            : 'Agregar horario'}
                       </button>
+
                       {horarioEditando && (
                         <button
                           type="button"
@@ -718,12 +903,19 @@ function PanelAdmin() {
                       <article className="admin-item" key={horario.id}>
                         <div>
                           <h3>{horario.diaSemana}</h3>
-                          <p>{horario.horaInicio} a {horario.horaFin}</p>
+                          <p>
+                            {horario.horaInicio} a {horario.horaFin}
+                          </p>
                         </div>
+
                         <div className="admin-item-actions">
-                          <button className="admin-secondary-button" onClick={() => editarHorario(horario)}>
+                          <button
+                            className="admin-secondary-button"
+                            onClick={() => editarHorario(horario)}
+                          >
                             Editar
                           </button>
+
                           <button
                             className="admin-secondary-button admin-danger-button"
                             disabled={guardando}
@@ -745,8 +937,11 @@ function PanelAdmin() {
                         </div>
                       </article>
                     ))}
+
                     {(profesionalSeleccionado.horarios || []).length === 0 && (
-                      <div className="admin-empty">Este profesional todavía no tiene horarios.</div>
+                      <div className="admin-empty">
+                        Este profesional todavía no tiene horarios.
+                      </div>
                     )}
                   </div>
                 </>
@@ -765,16 +960,25 @@ function PanelAdmin() {
 
               <div className="admin-list">
                 {reservasOrdenadas.map((reserva) => (
-                  <article className="admin-item admin-reservation" key={reserva.id}>
+                  <article
+                    className="admin-item admin-reservation"
+                    key={reserva.id}
+                  >
                     <div className="admin-item-main">
                       <div>
                         <span className={`booking-status status-${reserva.estado?.toLowerCase()}`}>
                           {reserva.estado}
                         </span>
-                        <h3>{reserva.tratamiento?.nombre || 'Tratamiento'}</h3>
+
+                        <h3>
+                          {reserva.tratamiento?.nombre || 'Tratamiento'}
+                        </h3>
+
                         <p>
-                          Cliente: {reserva.cliente?.nombre || 'Sin datos'} · Profesional: {reserva.profesional?.usuario?.nombre || 'Sin datos'}
+                          Cliente: {reserva.cliente?.nombre || 'Sin datos'} ·
+                          Profesional: {reserva.profesional?.usuario?.nombre || 'Sin datos'}
                         </p>
+
                         <small>
                           {new Date(reserva.inicio).toLocaleString('es-AR', {
                             dateStyle: 'medium',
@@ -802,6 +1006,7 @@ function PanelAdmin() {
                         >
                           Cancelar
                         </button>
+
                         <button
                           className="admin-primary-button"
                           disabled={guardando}
@@ -820,8 +1025,11 @@ function PanelAdmin() {
                     )}
                   </article>
                 ))}
+
                 {reservas.length === 0 && (
-                  <div className="admin-empty">Todavía no hay reservas registradas.</div>
+                  <div className="admin-empty">
+                    Todavía no hay reservas registradas.
+                  </div>
                 )}
               </div>
             </section>
