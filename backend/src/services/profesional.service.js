@@ -14,8 +14,7 @@ async function listarProfesionales() {
       usuario: {
         select: {
           id: true,
-          nombre: true,
-          email: true
+          nombre: true
         }
       },
       tratamientos: {
@@ -44,8 +43,7 @@ async function obtenerProfesionalPorId(id) {
       usuario: {
         select: {
           id: true,
-          nombre: true,
-          email: true
+          nombre: true
         }
       },
       tratamientos: {

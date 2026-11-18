@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../context/useAuth'
 import { obtenerReservas, completarReserva } from '../services/reservaService'
 
 function formatearFecha(fecha) {
@@ -25,30 +25,44 @@ function PanelProfesional() {
   const { usuario, autenticado, token, cargando } = useAuth()
 
   const [reservas, setReservas] = useState([])
-  const [cargandoReservas, setCargandoReservas] = useState(true)
+  const [cargandoReservas, setCargandoReservas] = useState(false)
   const [error, setError] = useState('')
   const [mensaje, setMensaje] = useState('')
   const [completandoId, setCompletandoId] = useState(null)
 
   useEffect(() => {
     if (cargando || !autenticado || usuario?.rol !== 'PROFESIONAL') {
-      setCargandoReservas(false)
       return
     }
 
+    let cancelado = false
+
     async function cargarReservas() {
+      setCargandoReservas(true)
+      setError('')
+
       try {
-        setError('')
         const respuesta = await obtenerReservas(token)
-        setReservas(respuesta.reservas)
+
+        if (!cancelado) {
+          setReservas(respuesta.reservas)
+        }
       } catch (error) {
-        setError(error.message)
+        if (!cancelado) {
+          setError(error.message)
+        }
       } finally {
-        setCargandoReservas(false)
+        if (!cancelado) {
+          setCargandoReservas(false)
+        }
       }
     }
 
     cargarReservas()
+
+    return () => {
+      cancelado = true
+    }
   }, [cargando, autenticado, usuario?.rol, token])
 
   async function manejarCompletado(reservaId) {
@@ -75,7 +89,7 @@ function PanelProfesional() {
     }
   }
 
-  if (cargando || cargandoReservas) {
+  if (cargando) {
     return <main className="simple-page">Cargando agenda...</main>
   }
 
@@ -86,6 +100,10 @@ function PanelProfesional() {
         <p>Esta sección está disponible para profesionales.</p>
       </main>
     )
+  }
+
+  if (cargandoReservas) {
+    return <main className="simple-page">Cargando agenda...</main>
   }
 
   const confirmadas = reservas.filter(
@@ -101,7 +119,9 @@ function PanelProfesional() {
       <header className="professional-header">
         <span className="eyebrow">GESTIÓN DE TURNOS</span>
         <h1>Mi agenda</h1>
-        <p>Bienvenido/a, {usuario.nombre}. Aquí podés consultar tus turnos.</p>
+        <p>
+          Bienvenido/a, {usuario.nombre}. Aquí podés consultar tus turnos.
+        </p>
       </header>
 
       <section className="professional-stats">
@@ -109,10 +129,12 @@ function PanelProfesional() {
           <strong>{reservas.length}</strong>
           <span>Turnos en total</span>
         </article>
+
         <article>
           <strong>{confirmadas}</strong>
           <span>Confirmados</span>
         </article>
+
         <article>
           <strong>{completadas}</strong>
           <span>Completados</span>
@@ -170,9 +192,7 @@ function PanelProfesional() {
 
                   <div>
                     <strong>Duración</strong>
-                    <span>
-                      {reserva.tratamiento.duracionMinutos} minutos
-                    </span>
+                    <span>{reserva.tratamiento.duracionMinutos} minutos</span>
                   </div>
 
                   <div>

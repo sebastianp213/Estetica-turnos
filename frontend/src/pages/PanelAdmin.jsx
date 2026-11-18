@@ -1,7 +1,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../context/useAuth'
 import * as admin from '../services/adminService'
 import './PanelAdmin.css'
 

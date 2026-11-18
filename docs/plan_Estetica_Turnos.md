@@ -32,7 +32,7 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 - [X] **T14 – Implementar inicio de sesión.** Verificar credenciales y emitir el mecanismo de autenticación elegido.
 - [X] **T15 – Implementar middleware de autenticación.** Identificar al usuario autenticado en las rutas protegidas.
 - [X] **T16 – Implementar autorización por roles.** Restringir operaciones según los roles cliente, profesional y administrador.
-- [ ] **T17 – Probar autenticación y permisos.** Cubrir credenciales incorrectas, usuarios inactivos, roles y acceso a datos ajenos.
+- [X] **T17 – Probar autenticación y permisos.** Cubrir credenciales incorrectas, usuarios inactivos, roles y acceso a datos ajenos.
 
 ## Etapa 4. Backend: tratamientos, profesionales y horarios
 
@@ -66,16 +66,16 @@ Organizar el desarrollo de Estética Turnos en tareas pequeñas, verificables y 
 - [X] **T39 – Implementar sección de mis reservas.** Mostrar reservas propias y permitir cancelarlas según las reglas.
 - [X] **T40 – Implementar panel profesional.** Mostrar agenda y permitir completar turnos asignados.
 - [X] **T41 – Implementar panel administrador.** Gestionar tratamientos, profesionales, horarios y reservas.
-- [ ] **T42 – Manejar estados de interfaz.** Mostrar carga, errores, confirmaciones y estados vacíos en las pantallas.
-- [ ] **T43 – Probar integración frontend-backend.** Verificar los flujos completos con distintos roles.
+- [X] **T42 – Manejar estados de interfaz.** Mostrar carga, errores, confirmaciones y estados vacíos en las pantallas.
+- [X] **T43 – Probar integración frontend-backend.** Verificar los flujos completos con distintos roles.
 
 ## Etapa 7. Calidad y documentación
 
-- [ ] **T44 – Ejecutar la suite completa de pruebas.** Registrar resultados reales y corregir fallos.
-- [ ] **T45 – Revisar seguridad y configuración.** Comprobar permisos, validaciones, manejo de errores y ausencia de secretos.
-- [ ] **T46 – Completar el informe de pruebas.** Documentar qué se probó, cómo se probó y los resultados obtenidos.
-- [ ] **T47 – Actualizar el README.** Agregar requisitos, instalación, configuración, ejecución, pruebas y enlaces públicos cuando existan.
-- [ ] **T48 – Revisar la documentación final.** Confirmar que spec, plan, tareas y código estén alineados.
+- [X] **T44 – Ejecutar la suite completa de pruebas.** Registrar resultados reales y corregir fallos.
+- [X] **T45 – Revisar seguridad y configuración.** Comprobar permisos, validaciones, manejo de errores y ausencia de secretos.
+- [X] **T46 – Completar el informe de pruebas.** Documentar qué se probó, cómo se probó y los resultados obtenidos.
+- [X] **T47 – Actualizar el README.** Agregar requisitos, instalación, configuración, ejecución, pruebas y enlaces públicos cuando existan.
+- [X] **T48 – Revisar la documentación final.** Confirmar que spec, plan, tareas y código estén alineados.
 
 ## Etapa 8. Publicación
 

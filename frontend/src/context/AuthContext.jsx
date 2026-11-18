@@ -1,5 +1,5 @@
 
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import {
   iniciarSesion as solicitarLogin,
   obtenerPerfil,
@@ -66,12 +66,4 @@ export function AuthProvider({ children }) {
   )
 }
 
-export function useAuth() {
-  const contexto = useContext(AuthContext)
-
-  if (!contexto) {
-    throw new Error('useAuth debe utilizarse dentro de AuthProvider')
-  }
-
-  return contexto
-}
+export default AuthContext
