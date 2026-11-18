@@ -576,9 +576,7 @@ function PanelAdmin() {
                     </button>
                   )}
                 </div>
-                <p className="admin-note">
-                  La versión actual permite registrar hasta dos profesionales.
-                </p>
+                
               </form>
 
               <div className="admin-list">

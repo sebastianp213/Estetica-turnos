@@ -1,3 +1,4 @@
+
 const prisma = require("../config/database");
 const bcrypt = require("bcryptjs");
 
@@ -61,17 +62,8 @@ async function obtenerProfesionalPorId(id) {
 
 async function crearProfesional(datos) {
   return prisma.$transaction(async (tx) => {
-    const cantidad = await tx.profesional.count();
-
-    if (cantidad >= 2) {
-      throw errorConEstado(
-        "El centro ya tiene registrados los dos profesionales permitidos",
-        409
-      );
-    }
-
     const existente = await tx.usuario.findUnique({
-      where: { email: datos.email }
+      where: { email: datos.email.trim().toLowerCase() }
     });
 
     if (existente) {
