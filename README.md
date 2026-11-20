@@ -1,16 +1,20 @@
 # Estética Turnos
 
-Sistema web de gestión de turnos para un centro de estética.
+**Sistema web de gestión de turnos para un centro de estética.**
+
+🌐 **Aplicación publicada:** https://estetica-turnos-z6fw.onrender.com
+
+💻 **Repositorio:** https://github.com/sebastianp213/Estetica-Turnos
 
 ## Descripción
 
-Estética Turnos es una aplicación web que permite administrar las reservas de un centro de estética. Los clientes pueden consultar los tratamientos disponibles, conocer a los profesionales y visualizar los horarios disponibles para reservar sus turnos.
+Estética Turnos es una aplicación web que permite gestionar las reservas de un centro de estética. Los clientes pueden consultar los tratamientos disponibles, conocer a los profesionales y visualizar los horarios disponibles para reservar sus turnos.
 
 El sistema cuenta con distintos perfiles de usuario y funcionalidades según el rol:
 
-- **Cliente:** consulta servicios, reserva turnos y administra sus reservas.
+- **Cliente:** consulta tratamientos, reserva turnos y administra sus reservas.
 - **Profesional:** consulta su agenda y gestiona el estado de sus turnos.
-- **Administrador:** administra tratamientos, profesionales, horarios, usuarios y reservas.
+- **Administrador:** administra tratamientos, profesionales, horarios y reservas.
 
 El sistema está diseñado para una única sucursal.
 
@@ -38,10 +42,11 @@ El sistema está diseñado para una única sucursal.
 ### Administradores
 
 - Gestión de tratamientos y precios.
-- Gestión de profesionales.
+- Alta, modificación y desactivación de profesionales.
+- Asignación de tratamientos a profesionales.
 - Configuración de horarios de atención.
 - Administración de reservas.
-- Gestión de usuarios.
+- Consulta y gestión de la información del sistema.
 
 ---
 
@@ -70,7 +75,6 @@ El sistema está diseñado para una única sucursal.
 - MariaDB
 - Prisma ORM
 - Prisma Client
-- Adaptador Prisma para MariaDB
 
 ### Herramientas
 
@@ -88,15 +92,13 @@ estetica-turnos/
 │
 ├── frontend/
 │   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   ├── styles/
-│   │   └── assets/
-│   ├── .env.example
-│   └── package.json
+│   └── src/
+│       ├── components/
+│       ├── context/
+│       ├── pages/
+│       ├── services/
+│       ├── styles/
+│       └── assets/
 │
 ├── backend/
 │   ├── prisma/
@@ -109,203 +111,99 @@ estetica-turnos/
 │   │   ├── routes/
 │   │   ├── services/
 │   │   └── utils/
-│   ├── .env.example
 │   ├── prisma.config.ts
-│   ├── server.js
-│   └── package.json
+│   └── server.js
 │
 ├── docs/
 │   ├── base_de_datos.md
 │   ├── plan_Estetica_Turnos.md
 │   ├── propuesta_inicial.md
-│   └── spec.md
+│   ├── spec.md
+│   └── README_DEPLOY.md
 │
-├── AGENTS.md
 ├── README.md
 └── .gitignore
 ```
 
 ---
 
-## Requisitos previos
+## Requisitos para ejecutar localmente
 
-Para ejecutar el proyecto localmente se necesita:
+Para ejecutar el proyecto en un entorno local se necesita:
 
 - Node.js y npm.
 - MariaDB.
-- XAMPP, o una instalación equivalente de MariaDB.
+- XAMPP o una instalación equivalente de MariaDB.
 - Git.
 
-Se recomienda utilizar una versión de Node.js compatible con las versiones de React, Vite y Prisma utilizadas en el proyecto.
+Se recomienda utilizar versiones compatibles con las dependencias del proyecto.
 
----
+## Instalación y configuración
 
-# Instalación y configuración
-
-## 1. Clonar el repositorio
+### 1. Clonar el repositorio
 
 ```bash
 git clone https://github.com/sebastianp213/Estetica-Turnos.git
-```
-
-Ingresar al directorio:
-
-```bash
 cd Estetica-Turnos
 ```
 
----
+### 2. Configurar la base de datos
 
-## 2. Configurar la base de datos
-
-Iniciar MariaDB desde XAMPP.
-
-Crear una base de datos con el nombre:
+Iniciar MariaDB desde XAMPP y crear una base de datos:
 
 ```sql
 CREATE DATABASE estetica_turnos;
 ```
 
-La base de datos puede crearse desde phpMyAdmin o mediante una consola SQL.
-
----
-
-## 3. Configurar el backend
+### 3. Configurar el backend
 
 Ingresar a la carpeta:
 
 ```bash
 cd backend
-```
-
-Instalar dependencias:
-
-```bash
 npm install
 ```
 
-Crear un archivo `.env` dentro de `backend/`, tomando como referencia `.env.example`.
+Crear un archivo `.env` tomando como referencia `.env.example`.
 
-Configuración de ejemplo:
+Configurar las variables necesarias para la conexión a la base de datos y la autenticación.
 
-```env
-PORT=3000
-
-JWT_SECRET=REEMPLAZAR_POR_UN_SECRET_SEGURO
-JWT_EXPIRES_IN=2h
-
-DATABASE_URL=mysql://root@localhost:3306/estetica_turnos
-```
-
-### Variables de entorno
-
-| Variable | Descripción |
-|---|---|
-| `PORT` | Puerto utilizado por el servidor backend. |
-| `JWT_SECRET` | Clave secreta utilizada para firmar los tokens JWT. |
-| `JWT_EXPIRES_IN` | Tiempo de expiración de los tokens. |
-| `DATABASE_URL` | URL de conexión a MariaDB. |
-
-> Los valores de ejemplo deben adaptarse al entorno local. No se deben publicar credenciales reales ni secretos.
-
-### Aplicar migraciones
-
-Desde la carpeta `backend/`:
+Aplicar las migraciones:
 
 ```bash
 npx prisma migrate dev
 ```
 
-Este comando aplica las migraciones de Prisma en la base de datos de desarrollo.
-
-Para comprobar el esquema:
-
-```bash
-npx prisma validate
-```
-
-### Iniciar el backend
+Iniciar el servidor:
 
 ```bash
 node server.js
 ```
 
-El servidor estará disponible en:
+### 4. Configurar el frontend
 
-```text
-http://localhost:3000
-```
-
-La ruta raíz permite comprobar que la API está funcionando.
-
----
-
-## 4. Configurar el frontend
-
-Abrir una segunda terminal e ingresar a:
+Abrir otra terminal e ingresar a:
 
 ```bash
 cd frontend
-```
-
-Instalar las dependencias:
-
-```bash
 npm install
 ```
 
-Crear el archivo `.env` a partir de `.env.example`.
+Crear el archivo `.env` tomando como referencia `.env.example`.
 
-Configuración de ejemplo:
-
-```env
-VITE_API_URL=/api
-```
-
-### Iniciar el frontend
+Iniciar el frontend:
 
 ```bash
 npm run dev
 ```
 
-Vite mostrará la dirección local donde estará disponible la aplicación. Por defecto:
+Vite mostrará la dirección local para acceder a la aplicación, normalmente:
 
 ```text
 http://localhost:5173
 ```
 
----
-
-# Ejecución del sistema
-
-Para utilizar la aplicación localmente, se deben mantener ejecutándose:
-
-1. MariaDB.
-2. Backend Express.
-3. Frontend React/Vite.
-
-El frontend se comunica con el backend a través de la API.
-
----
-
-## Seguridad
-
-El backend incorpora distintas medidas de seguridad:
-
-- Autenticación mediante JWT.
-- Contraseñas almacenadas mediante hash.
-- Autorización basada en roles.
-- Protección de encabezados HTTP mediante Helmet.
-- Configuración CORS.
-- Limitación de solicitudes mediante rate limiting.
-- Límite de tamaño para solicitudes JSON.
-- Manejo controlado de errores.
-- Validaciones de datos.
-- Restricciones de acceso a reservas según el usuario y su rol.
-
-Los secretos y las configuraciones locales se gestionan mediante variables de entorno.
-
-Los archivos `.env` no deben subirse al repositorio.
+Para utilizar el sistema localmente deben permanecer ejecutándose MariaDB, el backend y el frontend.
 
 ---
 
@@ -324,64 +222,50 @@ Los archivos `.env` no deben subirse al repositorio.
 
 ---
 
-## Validaciones y pruebas
+## Seguridad
 
-Durante el desarrollo se realizaron pruebas funcionales y validaciones técnicas.
+El backend incorpora:
 
-### Validaciones técnicas
+- Autenticación mediante JWT.
+- Contraseñas almacenadas mediante hash.
+- Autorización basada en roles.
+- Protección de encabezados HTTP mediante Helmet.
+- Configuración CORS.
+- Limitación de solicitudes mediante rate limiting.
+- Validaciones de datos.
+- Manejo controlado de errores.
+- Restricciones de acceso a reservas según el usuario y su rol.
 
-- Validación del esquema de Prisma.
-- Comprobación de sintaxis del backend.
-- Compilación del frontend.
-- Ejecución de ESLint.
-- Verificación de la conexión entre frontend y backend.
-- Comprobación de conexión a la base de datos.
-
-### Pruebas funcionales
-
-- Registro e inicio de sesión.
-- Consulta de tratamientos.
-- Consulta de profesionales.
-- Consulta de disponibilidad.
-- Creación de reservas.
-- Consulta de reservas personales.
-- Cancelación de reservas.
-- Funcionamiento de paneles de profesionales y administradores.
-- Validación de permisos y acceso a rutas.
-- Comportamiento ante rutas inexistentes.
-
-Las pruebas realizadas hasta el momento son principalmente manuales y de validación técnica. El proyecto todavía no cuenta con una suite automatizada completa de pruebas.
+Los secretos y las configuraciones locales se gestionan mediante variables de entorno. Los archivos `.env` no deben subirse al repositorio.
 
 ---
 
 ## Documentación
 
-La documentación adicional se encuentra en `docs/`.
+La documentación complementaria del proyecto se encuentra en la carpeta `docs/`.
 
-| Documento | Contenido |
+| Documento | Descripción |
 |---|---|
-| `spec.md` | Especificación funcional y reglas del sistema. |
+| `README_DEPLOY.md` | Información del despliegue y acceso a la aplicación. |
+| `MANUAL_USUARIO.md` | Instrucciones para utilizar el sistema como cliente. |
+| `MANUAL_ADMINISTRACION.md` | Instrucciones para gestionar el sistema como administrador. |
+| `MANUAL_TECNICO.md` | Arquitectura, tecnologías e instalación del proyecto. |
+| `RELEVAMIENTO.md` | Relevamiento y requisitos del sistema. |
+| `INFORME_DE_PRUEBAS.md` | Casos de prueba y resultados obtenidos. |
 | `base_de_datos.md` | Modelo y estructura de la base de datos. |
+| `spec.md` | Especificación funcional y reglas del sistema. |
 | `propuesta_inicial.md` | Propuesta original del proyecto. |
-| `plan_Estetica_Turnos.md` | Plan de desarrollo, tareas y etapas. |
+| `plan_Estetica_Turnos.md` | Plan de desarrollo y etapas del proyecto. |
 
 ---
 
 ## Estado del proyecto
 
-El sistema cuenta con las funcionalidades principales implementadas y verificadas en entorno local.
+El sistema cuenta con sus funcionalidades principales implementadas y desplegadas en un entorno público.
 
-Actualmente se encuentra en etapa de revisión final, documentación y preparación para su publicación.
+Se realizaron pruebas funcionales de los procesos principales, incluyendo autenticación, gestión administrativa, asignación de tratamientos y reservas.
 
-### Pendientes
-
-- Completar la revisión final de documentación.
-- Ampliar las pruebas automatizadas.
-- Revisar configuración de producción.
-- Rotar los secretos utilizados durante el desarrollo.
-- Publicar la base de datos.
-- Desplegar backend y frontend.
-- Verificar el funcionamiento de la aplicación en un entorno público.
+La documentación complementaria se encuentra en proceso de preparación para la entrega.
 
 ---
 
@@ -389,5 +273,6 @@ Actualmente se encuentra en etapa de revisión final, documentación y preparaci
 
 Proyecto desarrollado como práctica de programación y desarrollo web.
 
-**Repositorio:**  
-https://github.com/sebastianp213/Estetica-Turnos
+**Repositorio:** https://github.com/sebastianp213/Estetica-Turnos
+
+**Aplicación:** https://estetica-turnos-z6fw.onrender.com
