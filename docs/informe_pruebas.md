@@ -1,115 +1,163 @@
-# Informe de pruebas – Estética Turnos
+# Informe de Pruebas – Estética Turnos
 
-## 1. Objetivo
+## 1. Introducción
 
-El presente informe tiene como objetivo documentar las validaciones técnicas y pruebas funcionales realizadas sobre el sistema Estética Turnos, con el fin de comprobar el correcto funcionamiento de sus componentes, la integridad de su configuración y el cumplimiento de las principales reglas de seguridad y acceso.
+El presente documento registra las pruebas realizadas sobre Estética Turnos, una aplicación web destinada a la gestión de turnos de un centro de estética.
+
+El objetivo de las pruebas es comprobar el funcionamiento de las principales funcionalidades, verificar la interacción entre el frontend y el backend e identificar posibles errores que puedan afectar el uso del sistema.
+
+Las verificaciones descriptas corresponden a pruebas funcionales realizadas mediante la utilización de la aplicación. No se consideran pruebas automatizadas ni de carga.
 
 ## 2. Entorno de pruebas
 
-El sistema fue probado en un entorno local de desarrollo.
+Las pruebas se realizaron utilizando el siguiente entorno:
 
-**Tecnologías utilizadas:**
-- Frontend: React y Vite.
-- Backend: Node.js y Express.
-- ORM: Prisma.
-- Base de datos: MariaDB.
-- Entorno de desarrollo: Windows.
+| Elemento | Descripción |
+|---|---|
+| Aplicación | Estética Turnos |
+| Frontend | React y Vite |
+| Backend | Node.js y Express |
+| Base de datos | MariaDB |
+| ORM | Prisma |
+| Navegador | Google Chrome |
+| Entorno | Aplicación desplegada en Render |
+| URL de acceso | https://estetica-turnos-z6fw.onrender.com |
 
-## 3. Validaciones técnicas
+## 3. Metodología
 
-### 3.1. Backend
+Se utilizó una metodología de pruebas funcionales manuales.
 
-Se realizaron las siguientes verificaciones:
+El procedimiento consistió en ingresar a la aplicación, ejecutar las operaciones disponibles según el tipo de usuario y observar los resultados obtenidos.
 
-- Validación de sintaxis de los archivos JavaScript del backend mediante Node.js.
-- Verificación de sintaxis del archivo principal `server.js`.
-- Validación del esquema de Prisma.
-- Auditoría de dependencias mediante npm.
+Se consideraron principalmente los siguientes aspectos:
 
-**Resultados:**
+- Funcionamiento de la autenticación.
+- Acceso al panel de administración.
+- Gestión de tratamientos y profesionales.
+- Asociación entre profesionales y tratamientos.
+- Consulta de disponibilidad.
+- Creación de reservas.
+- Actualización de los estados de las reservas.
 
-- No se detectaron errores de sintaxis en los archivos analizados.
-- El esquema de Prisma fue validado correctamente.
-- La auditoría de dependencias del backend finalizó sin vulnerabilidades detectadas.
+## 4. Casos de prueba
 
-### 3.2. Frontend
+### 4.1. Autenticación y acceso
 
-Se realizaron las siguientes comprobaciones:
+| ID | Prueba | Resultado esperado | Resultado obtenido |
+|---|---|---|---|
+| P-01 | Iniciar sesión con credenciales válidas de administrador. | Permitir el acceso al sistema. | Correcto. |
+| P-02 | Verificar las credenciales del administrador en la base de datos. | Identificar un usuario activo con rol ADMIN. | Correcto. |
 
-- Ejecución de ESLint para detectar errores y problemas en el código.
-- Generación de la compilación de producción mediante Vite.
+### 4.2. Administración
 
-**Resultados:**
+| ID | Prueba | Resultado esperado | Resultado obtenido |
+|---|---|---|---|
+| P-03 | Ingresar al panel de administración. | Mostrar las opciones de gestión. | Correcto. |
+| P-04 | Asociar un tratamiento a un profesional. | Registrar la asociación correctamente. | Correcto. |
+| P-05 | Actualizar la información mostrada después de asociar un tratamiento. | Reflejar los cambios en el panel. | Correcto. |
 
-- ESLint finalizó sin errores.
-- La compilación de producción se generó correctamente.
-- Se comprobó que el frontend puede prepararse para su distribución en producción.
+### 4.3. Gestión de reservas
 
-## 4. Pruebas funcionales
+| ID | Prueba | Resultado esperado | Resultado obtenido |
+|---|---|---|---|
+| P-06 | Seleccionar un tratamiento, profesional, fecha y horario disponibles. | Permitir continuar con la reserva. | Correcto. |
+| P-07 | Confirmar una reserva válida. | Crear la reserva y mostrar su información. | Correcto. |
+| P-08 | Verificar los datos de la reserva creada. | Conservar tratamiento, profesional, duración, precio y estado. | Correcto. |
 
-Se realizaron pruebas funcionales sobre los principales comportamientos del sistema.
+### 4.4. Detalle de la reserva verificada
 
-### 4.1. Autenticación y registro
+Durante una de las pruebas funcionales se realizó correctamente la siguiente operación:
 
-Se verificaron los siguientes escenarios:
+| Dato | Valor |
+|---|---|
+| Tratamiento | Limpieza facial |
+| Profesional | Laura Martínez |
+| Duración | 60 minutos |
+| Precio | $20.000 |
+| Estado | CONFIRMADO |
 
-- Registro de nuevos usuarios.
-- Rechazo del registro con un correo electrónico ya existente.
-- Rechazo del inicio de sesión con contraseña incorrecta.
-- Rechazo del inicio de sesión con un usuario inexistente.
+La aplicación permitió completar la operación y registrar la reserva con los datos correspondientes.
 
-Los resultados obtenidos fueron satisfactorios, verificándose el correcto funcionamiento de las validaciones correspondientes.
+## 5. Casos de prueba
 
-### 4.2. Control de acceso y permisos
+Se realizaron pruebas funcionales manuales para verificar las principales operaciones del sistema.
 
-Se comprobaron los permisos asociados a los distintos roles del sistema:
+### 5.1. Autenticación y acceso
 
-- Acceso de clientes a sus funcionalidades correspondientes.
-- Restricción del acceso de clientes a paneles administrativos.
-- Restricción del acceso de clientes al panel profesional.
-- Acceso de profesionales a las funcionalidades correspondientes a su rol.
+| ID | Prueba | Resultado obtenido |
+|---|---|---|
+| P-01 | Iniciar sesión con credenciales válidas de administrador. | Correcto. |
+| P-02 | Verificar las credenciales y el estado de la cuenta administrativa. | Correcto. |
+| P-09 | Registrar un nuevo cliente. | Correcto. |
+| P-10 | Intentar iniciar sesión con credenciales incorrectas. | Correcto. El sistema rechaza el acceso. |
 
-Los controles de acceso funcionaron según lo esperado durante las pruebas realizadas.
+### 5.2. Administración
 
-### 4.3. Gestión y privacidad de turnos
+| ID | Prueba | Resultado obtenido |
+|---|---|---|
+| P-03 | Ingresar al panel de administración. | Correcto. |
+| P-04 | Asociar un tratamiento a un profesional. | Correcto. |
+| P-05 | Verificar la actualización de la información del panel. | Correcto. |
 
-Se verificaron los siguientes comportamientos:
+### 5.3. Gestión de reservas
 
-- Acceso del cliente a su sección de turnos.
-- Restricción del acceso a turnos pertenecientes a otros clientes.
-- Separación de la información de turnos según el usuario autenticado.
+| ID | Prueba | Resultado obtenido |
+|---|---|---|
+| P-06 | Seleccionar tratamiento, profesional, fecha y horario disponibles. | Correcto. |
+| P-07 | Confirmar una reserva válida. | Correcto. |
+| P-08 | Verificar los datos de la reserva creada. | Correcto. |
+| P-11 | Consultar las reservas del cliente. | Correcto. |
+| P-12 | Cancelar una reserva desde la cuenta del cliente. | Correcto. |
+| P-13 | Cancelar una reserva desde la administración. | Correcto. |
+| P-14 | Marcar una reserva como completada. | Correcto. |
+| P-15 | Intentar generar reservas superpuestas. | Correcto. El sistema evita la superposición. |
+| P-16 | Validar fechas y límites permitidos para reservar. | Correcto. |
+| P-18 | Verificar la conservación del historial de reservas. | Correcto. |
 
-Los resultados fueron satisfactorios, comprobándose que los usuarios no pueden acceder libremente a información de turnos perteneciente a otros clientes.
+### 5.4. Control de permisos
 
-## 5. Seguridad y configuración
+| ID | Prueba | Resultado obtenido |
+|---|---|---|
+| P-17 | Verificar los permisos correspondientes a cada rol. | Correcto. |
 
-Durante la revisión de seguridad se verificaron e incorporaron medidas relacionadas con:
+### 5.5. Detalle de una reserva verificada
 
-- Protección de encabezados HTTP.
-- Configuración de CORS.
-- Limitación de solicitudes mediante rate limiting.
-- Limitación del tamaño de las solicitudes JSON.
-- Protección de rutas según autenticación y permisos.
-- Manejo de errores y respuestas HTTP.
-- Configuración de conexión a la base de datos mediante variables de entorno.
+Durante las pruebas se realizó correctamente la siguiente reserva:
 
-También se incorporaron respuestas controladas para rutas inexistentes y errores internos del servidor, evitando exponer innecesariamente detalles de implementación al cliente.
+| Dato | Valor |
+|---|---|
+| Tratamiento | Limpieza facial |
+| Profesional | Laura Martínez |
+| Duración | 60 minutos |
+| Precio | $20.000 |
+| Estado | CONFIRMADO |
 
-## 6. Observaciones y limitaciones
+La aplicación permitió completar la operación y registrar la reserva con los datos correspondientes.
 
-Durante las auditorías de dependencias se identificaron diferencias entre el estado del backend y el frontend.
+## 6. Resultados generales
 
-- **Backend:** la auditoría de npm no detectó vulnerabilidades.
-- **Frontend:** se detectaron vulnerabilidades de dependencias relacionadas con herramientas del entorno de desarrollo y compilación.
+Las pruebas funcionales permitieron verificar correctamente:
 
-Se evaluó la posibilidad de corregirlas automáticamente, pero la solución propuesta implicaba cambios potencialmente incompatibles en las versiones de las herramientas utilizadas. Por este motivo, no se aplicaron actualizaciones forzadas que pudieran comprometer el funcionamiento del proyecto.
+- Registro e inicio de sesión de clientes.
+- Validación de credenciales incorrectas.
+- Acceso al panel administrativo.
+- Asociación de tratamientos y profesionales.
+- Consulta y gestión de reservas.
+- Cancelación de reservas por clientes y administradores.
+- Finalización de turnos.
+- Validación de fechas y horarios.
+- Prevención de reservas superpuestas.
+- Control de permisos según el rol.
+- Conservación del historial de reservas.
 
-Estas observaciones deberán ser revisadas antes de realizar el despliegue definitivo.
+**Resultado general:** las 18 pruebas contempladas fueron verificadas satisfactoriamente.
 
 ## 7. Conclusión
 
-Las validaciones técnicas y pruebas funcionales realizadas sobre Estética Turnos obtuvieron resultados satisfactorios.
+Las pruebas funcionales realizadas sobre Estética Turnos permitieron comprobar el correcto funcionamiento de las funcionalidades principales de la aplicación.
 
-El backend y el frontend superaron las comprobaciones de sintaxis, validación, linting y compilación. Asimismo, las pruebas funcionales realizadas permitieron verificar el comportamiento de los mecanismos de autenticación, registro, permisos y protección de información de turnos.
+Se verificó la autenticación de usuarios, la administración de tratamientos y profesionales, la configuración de reservas, el control de disponibilidad y las operaciones correspondientes a cada rol.
 
-El sistema se encuentra en condiciones de continuar con la revisión final de documentación y la etapa de preparación para el despliegue, manteniendo pendientes las observaciones de seguridad de dependencias identificadas en el frontend y las verificaciones específicas propias del entorno de producción.
+También se comprobó que el sistema respeta las reglas de negocio definidas, evita la superposición de turnos y conserva los registros históricos.
+
+En conclusión, los resultados obtenidos fueron satisfactorios y permiten considerar que las funcionalidades verificadas cumplen con los requerimientos establecidos para esta versión del proyecto.
